@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>Admin Home</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+      <link rel="stylesheet" href="mainstyle.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+   </head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-light">
+     <a class="navbar-brand" href="home.html">Team 4B Online Bookstore</a>
+     <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">User Profile</a>
+           <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Edit profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Logout</a>
+           </div>
+        </li>
+        <li class="nav-item">
+           <a class="nav-link" href="cart.html">Cart</a>
+        </li>
+     </ul>
+  </nav>
+<div class="jumbotron text-center">
+  <h1>WELCOME, ADMIN</h1>
+</div>
+
+
+<div class="container">
+  <button type="button" class="btn btn-primary"
+  onclick="getElementById('searchbooks').style.display='block';
+  getElementById('booklist').style.display='none';
+  getElementById('editbook').style.display='none';
+  ">Manage Books</button>
+  <button type="button" class="btn btn-primary"
+  onclick="getElementById('searchbooks').style.display='none';
+  getElementById('booklist').style.display='none';
+  getElementById('editbook').style.display='none';
+  ">"Manage Users</button>
+  <button type="button" class="btn btn-primary"
+  onclick="getElementById('searchbooks').style.display='none';
+  getElementById('booklist').style.display='none';
+  getElementById('editbook').style.display='none';
+  ">Manage Promotions</button>
+</div>
+
+<div class="container">
+    <form class="row" id="searchbooks" style="display:none">
+        <h1>Search Bookstore</h1>
+        <div class="form-group">
+            <label for="titleInput">Title</label>
+            <input id="titleInput" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="isbnInput">ISBN #</label>
+            <input id="isbnInput" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="authorInput">Author</label>
+            <input id="authorInput" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="subjectSelect">Subject</label>
+            <select class="custom-select" id="subjectSelect">
+                <option selected>Select a subject</option>
+                <option value="1">Classic Literature</option>
+                <option value="2">Modern Literature</option>
+                <option value="3">Textbooks</option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-primary"
+        onclick="getElementById('searchbooks').style.display='none';
+        getElementById('booklist').style.display='block';
+        ">Search</button>
+    </form>
+  </div>
+
+  <table class="table table-hover" p id='booklist' style="display:none">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>ISBN</th>
+        <th>Author</th>
+        <th>Edition</th>
+        <th>Publication Year</th>
+        <th>Publisher</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr onclick="getElementById('booklist').style.display='none';
+      getElementById('editbook').style.display='block';
+      ">
+        <td>BookName1</td>
+        <td>12345</td>
+        <td>Sherlock</td>
+        <td>1st</td>
+        <td>1943</td>
+        <td>Boston Rev.</td>
+      </tr>
+      <tr onclick="getElementById('booklist').style.display='none';
+      getElementById('editbook').style.display='block';
+      ">
+        <td>Calculus IV</td>
+        <td>54321</td>
+        <td>Moe Jenkins</td>
+        <td>3rd</td>
+        <td>2019</td>
+        <td>Mcgraw</td>
+      </tr>
+      <tr onclick="getElementById('booklist').style.display='none';
+      getElementById('editbook').style.display='block';
+      ">
+        <td>Green eggs n ham</td>
+        <td>32132</td>
+        <td>Dr. Suess</td>
+        <td></td>
+        <td>1987</td>
+        <td>CA Rec</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="container" p id="editbook" style="display:none">
+    <div class="form-group">
+       <label class="col-md-3 control-label">Title:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="BookTitle">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">ISBN:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="12343523">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Author:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="Benjamin Tanner">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Publisher:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="Mcgraw">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Publication Year:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="1928">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Category:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="Horror">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Edition:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Quantity in-stock:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="24">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Minimum Threshold:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="2">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Buying Price:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="6.99">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Selling Price:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="12.99">
+       </div>
+    </div>
+
+    <div class="form-group">
+       <label class="col-md-3 control-label"></label>
+       <div class="col-md-8">
+          <button type="submit" lass="btn btn-primary">Save Changes</button>
+          <span></span>
+          <input type="reset" class="btn btn-default" value="Cancel"
+          onclick="getElementById('editbook').style.display='none';
+          getElementById('booklist').style.display='block';">
+       </div>
+    </div>
+
+
+</body>
+</html>
