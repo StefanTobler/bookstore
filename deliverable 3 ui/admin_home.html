@@ -32,7 +32,7 @@
   <h1>ADMIN</h1>
 </div>
 
-
+<div class="container" id="home" style="display:block">
 <div class="col d-flex justify-content-center">
   <div class="card" style="width: 18rem;">
     <img class="card-img-top" src="book-solid.svg" alt="Card image cap">
@@ -43,6 +43,7 @@
         onclick="getElementById('searchbooks').style.display='block';
         getElementById('booklist').style.display='none';
         getElementById('editbook').style.display='none';
+        getElementById('home').style.display='none';
         ">Manage Books</button>
     </div>
   </div>
@@ -85,7 +86,7 @@
     </div>
   </div>
 </div>
-
+</div>
 
 <div class="container">
     <form class="row" id="searchbooks" style="display:none">
@@ -238,7 +239,7 @@
           <span></span>
           <input type="reset" class="btn btn-default" value="Cancel"
           onclick="getElementById('editbook').style.display='none';
-          getElementById('booklist').style.display='block';">
+          getElementById('home').style.display='block';">
        </div>
     </div>
   </div>
