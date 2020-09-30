@@ -1,13 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-   <head>
-      <title>Admin Home</title>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-      <link rel="stylesheet" href="mainstyle.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="admin_home.css">
+    <title>Admin Home</title>
+
    </head>
 <body>
   <nav class="navbar navbar-expand-lg bg-light">
@@ -27,27 +29,63 @@
      </ul>
   </nav>
 <div class="jumbotron text-center">
-  <h1>WELCOME, ADMIN</h1>
+  <h1>ADMIN</h1>
 </div>
 
 
-<div class="container">
-  <button type="button" class="btn btn-primary"
-  onclick="getElementById('searchbooks').style.display='block';
-  getElementById('booklist').style.display='none';
-  getElementById('editbook').style.display='none';
-  ">Manage Books</button>
-  <button type="button" class="btn btn-primary"
-  onclick="getElementById('searchbooks').style.display='none';
-  getElementById('booklist').style.display='none';
-  getElementById('editbook').style.display='none';
-  ">"Manage Users</button>
-  <button type="button" class="btn btn-primary"
-  onclick="getElementById('searchbooks').style.display='none';
-  getElementById('booklist').style.display='none';
-  getElementById('editbook').style.display='none';
-  ">Manage Promotions</button>
+<div class="col d-flex justify-content-center">
+  <div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="book-solid.svg" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title"></h5>
+      <p class="card-text"></p>
+      <button type="button" class="btn btn-primary"
+        onclick="getElementById('searchbooks').style.display='block';
+        getElementById('booklist').style.display='none';
+        getElementById('editbook').style.display='none';
+        ">Manage Books</button>
+    </div>
+  </div>
+  <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="users-solid.svg" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title"></h5>
+        <p class="card-text"></p>
+        <button type="button" class="btn btn-primary"
+        onclick="getElementById('searchbooks').style.display='none';
+        getElementById('booklist').style.display='none';
+        getElementById('editbook').style.display='none';
+        ">Manage Users</button>
+      </div>
+  </div>
 </div>
+<div class="col d-flex justify-content-center">
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="hands-helping-solid.svg" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title"></h5>
+      <p class="card-text"></p>
+      <button type="button" class="btn btn-primary"
+        onclick="getElementById('searchbooks').style.display='none';
+        getElementById('booklist').style.display='none';
+        getElementById('editbook').style.display='none';
+        ">Manage Promotions</button>
+    </div>
+</div>
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="money-bill-wave-solid.svg" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title"></h5>
+      <p class="card-text"></p>
+      <button type="button" class="btn btn-primary"
+        onclick="getElementById('searchbooks').style.display='none';
+        getElementById('booklist').style.display='none';
+        getElementById('editbook').style.display='none';
+        ">Manage Sales</button>
+    </div>
+  </div>
+</div>
+
 
 <div class="container">
     <form class="row" id="searchbooks" style="display:none">
@@ -79,8 +117,8 @@
         ">Search</button>
     </form>
   </div>
-
-  <table class="table table-hover" p id='booklist' style="display:none">
+<div class="container" p id='booklist' style="display:none">
+  <table class="table table-hover">
     <thead>
       <tr>
         <th>Title</th>
@@ -124,6 +162,7 @@
       </tr>
     </tbody>
   </table>
+</div>
   <div class="container" p id="editbook" style="display:none">
     <div class="form-group">
        <label class="col-md-3 control-label">Title:</label>
@@ -202,7 +241,7 @@
           getElementById('booklist').style.display='block';">
        </div>
     </div>
-
+  </div>
 
 </body>
 </html>
