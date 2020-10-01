@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="mx-auto mt-3 book-details">
+      <div class="container">
+        <h1>Order History</h1>
+      </div>
+
+      <div class="container m-4">
+        <div class="row">
+          <div class="col-sm" style="text-align: center;">
+            <div class="p-3 book-price-section">
+              <p class="book-category"><i>current orders</i></p>
+              <hr>
+
+              <div class="p-3 mt-2 mb-2 history-item container">
+                <div class="row">
+                  <div class="col-sm">
+                    <img src="/media/temp/cover.jpg" class="history-book-cover img-fluid " alt="Responsive image">
+                  </div>
+                  <div class="col-sm">
+                    <p class="history-book-title"><b>The Design and Evolution of C++</b></p>
+                    <p class="history-date">Ordered on 9/24/2020</p>
+                    <p class="history-status"><b>Status:</b> Shipped</p>
+                  </div>
+                  <div class="col-sm">
+                    <p class="book-price">$49.90</p>
+                    <button type="button" class="btn btn-primary btn-lg btn-block"><b>Reorder</b></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3 mt-2 mb-2 history-item container">
+                <div class="row">
+                  <div class="col-sm">
+                    <img src="/media/temp/cover02.jpg" class="history-book-cover img-fluid " alt="Responsive image">
+                  </div>
+                  <div class="col-sm">
+                    <p class="history-book-title"><b>The Pragmatic Programmer</b></p>
+                    <p class="history-date">Ordered on 9/23/2020</p>
+                    <p class="history-status"><b>Status:</b> Processing</p>
+                  </div>
+                  <div class="col-sm">
+                    <p class="book-price">$40.16</p>
+                    <button type="button" class="btn btn-primary btn-lg btn-block"><b>Reorder</b></button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="container m-4">
+        <div class="row">
+          <div class="col-sm" style="text-align: center;">
+            <div class="p-3 book-price-section">
+              <p class="book-category"><i>past orders</i></p>
+              <hr>
+
+              <div class="p-3 mt-2 mb-2 history-item container">
+                <div class="row">
+                  <div class="col-sm">
+                    <img src="/media/temp/cover04.jpg" class="history-book-cover img-fluid " alt="Responsive image">
+                  </div>
+                  <div class="col-sm">
+                    <p class="history-book-title"><b>Neuroscience: Exploring the Brain</b></p>
+                    <p class="history-status">Ordered on 9/03/2020</p>
+                  </div>
+                  <div class="col-sm">
+                    <p class="book-price">$59.32</p>
+                    <button type="button" class="btn btn-primary btn-lg btn-block"><b>Reorder</b></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3 mt-2 mb-2 history-item container">
+                <div class="row">
+                  <div class="col-sm">
+                    <img src="/media/temp/cover05.jpg" class="history-book-cover img-fluid " alt="Responsive image">
+                  </div>
+                  <div class="col-sm">
+                    <p class="history-book-title"><b>Math Girls</b></p>
+                    <p class="history-status">Ordered on 7/18/2020</p>
+                  </div>
+                  <div class="col-sm">
+                    <p class="book-price">$24.99</p>
+                    <button type="button" class="btn btn-primary btn-lg btn-block"><b>Reorder</b></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3 mt-2 mb-2 history-item container">
+                <div class="row">
+                  <div class="col-sm">
+                    <img src="/media/temp/cover06.jpg" class="history-book-cover img-fluid " alt="Responsive image">
+                  </div>
+                  <div class="col-sm">
+                    <p class="history-book-title"><b>Math Girls 2: Fermat's Last Theorem</b></p>
+                    <p class="history-status">Ordered on 4/01/2020</p>
+                  </div>
+                  <div class="col-sm">
+                    <p class="book-price">$16.99</p>
+                    <button type="button" class="btn btn-primary btn-lg btn-block"><b>Reorder</b></button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

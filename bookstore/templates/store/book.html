@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load store_filters %}
+{% block content %}
+    <div class="mx-auto mt-3 mb-3 book-details">
+      <div class="container">
+        <h1>{{ book.title }}</h1>
+        <h3>By {{ book | get_authors_as_string }}</h3>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <img src="{{ book.image.url }}" class="book-cover img-fluid " alt="Responsive image">
+            <p class="book-rating">
+              <span class="book-rating-color">★★★★</span>★
+            </p>
+            <p>
+              <b>ISBN:</b> {{ book.isbn }}<br>
+              {% if book.edition %}
+              <b>Edition:</b> {{ book.edition }}
+              {% endif %}
+            </p>
+          </div>
+          <div class="col-sm" style="text-align: center;">
+            <div class="book-price-section">
+              <p class="book-category">{{ book | get_genres_as_string }}</p>
+              <p class="book-publisher">Published by {{ book.publisher }}<br>Published in {{ book.publication_year }}</p>
+              <p class="book-summary ml-4 mr-4">{{ book.summary }}</p>
+              <p class="book-price">${{ book.selling_price }}</p>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg btn-block"><b>Add to cart</b></button>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

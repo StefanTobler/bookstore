@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load store_filters %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col" id="orderSummary">
+                <h1>Order Summary</h1>
+                {% for book in books %}
+                <div class="card">
+                  <a href="/book/{{ book.id }}">
+                      <img src="{{ book.image.url }}" class="book-img card-img-top" alt="{{ book.title }}  Cover Image">
+                  </a>
+                  <div class="card-body">
+                    <h5 class="card-title"><a class="book-link" href="/book/{{ book.id }}">{{ book.title }}</a></h4>
+                    <h6>${{ book.selling_price }}</h6>
+                    <button>Remove from order</button>
+                  </div>
+                </div>
+                {% endfor %}
+                <div class="checkout-table">
+                  <table>
+                      <tr>
+                          <th>Subtotal:</th>
+                          <td>${{ books | selling_price_sum }}</td>
+                      </tr>
+                      <tr>
+                        <th>Taxes (7%):</th>
+                        <td>${{ books | get_selling_price_taxes }}</td>
+                      </tr>
+                      <tr>
+                        <th>Total:</th>
+                        <td>${{ books | get_total_price }}</td>
+                      </tr>
+                  </table>
+                  <button class="btn btn-primary btn-lg mt-1" id="checkoutBtn">Checkout</button>
+                </div>
+            </div>
+            <div class="col" id="orderDetails">
+                <div id="paymentInfo">
+                    <h2>Payment Information</h2>
+                    <table>
+                        <tr>
+                            <th>Card Number</th>
+                            <td>1111 2222 3333 4444</td>
+                        </tr>
+                        <tr>
+                            <th>Card Type</th>
+                            <td>Visa</td>
+                        </tr>
+                        <tr>
+                            <th>Expiration Date</th>
+                            <td>09/20</td>
+                        </tr>
+                    </table>
+                    <a class="btn btn-primary" data-toggle="collapse" href="#changePayment">Change Payment Method</a>
+                    <div class="collapse" id="changePayment">
+                        <form>
+                            <div class="form-group">
+                                <label for="cardNumInput">Card Number</label>
+                                <input id="cardNumInput" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="cardTypeSelect">Subject</label>
+                                <select class="custom-select" id="cardTypeSelect">
+                                    <option selected>Select a card type</option>
+                                    <option value="1">Mastercard</option>
+                                    <option value="2">American Express</option>
+                                    <option value="3">Visa</option>
+                                    <option value="4">Discover</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="cardDateInput">Card Expiration Date</label>
+                                <input cardDateInput" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-secondary btn-sm">Submit changes</button>
+                        </form>
+                    </div>
+                </div>
+                <div id="shippingInfo">
+                    <h2>Shipping Details</h2>
+                    <table>
+                        <tr>
+                            <td>2645 Whitling St NW</td>
+                        </tr>
+                        <tr>
+                            <td>Atlanta, GA</td>
+                        </tr>
+                        <tr>
+                            <td>30318</td>
+                        </tr>
+                    </table>
+                    <a class="btn btn-primary" data-toggle="collapse" href="#changeAddress">Change Shipping Address</a>
+                    <div class="collapse" id="changeAddress">
+                        <form>
+                            <div class="form-group">
+                                <label for="addressInput">Street address</label>
+                                <input id="addressInput" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="cityInput">City</label>
+                                <input id="cityInput" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="stateInput">State</label>
+                                <input id="stateInput" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="zipCodeInput">Zip Code</label>
+                                <input id="zipCodeInput" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-secondary btn-sm">Submit changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="collapse" id="changePayment">
+        <form>
+            <div class="form-group">
+                <label for="cardNumInput">Card Number</label>
+                <input id="cardNumInput" class="form-control">
+            </div>
+        </form>
+  </div>
+{% endblock content %}
