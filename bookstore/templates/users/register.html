@@ -16,43 +16,43 @@
                 {% csrf_token %}
                 <h2>Personal details</h2>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">First name<span class="register-required">*</span></label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter first name">
+                  <label for="first_name">First name<span class="register-required">*</span></label>
+                  <input type="text" class="form-control" id="first_name" aria-describedby="emailHelp" placeholder="Enter first name" required>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Last name<span class="register-required">*</span></label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter last name">
+                  <label for="last_name">Last name<span class="register-required">*</span></label>
+                  <input type="text" class="form-control" id="last_name" aria-describedby="emailHelp" placeholder="Enter last name" required>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Phone number<span class="register-required">*</span></label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter phone number">
+                  <label for="phone">Phone number<span class="register-required">*</span></label>
+                  <input type="tel" class="form-control" id="phone" aria-describedby="emailHelp" placeholder="Enter phone number" required>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Email<span class="register-required">*</span></label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                  <label for="email">Email<span class="register-required">*</span></label>
+                  <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
                   <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">Password<span class="register-required">*</span></label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                  <label for="password">Password<span class="register-required">*</span></label>
+                  <input type="password" class="form-control" id="password" placeholder="Password" required>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">Re-enter password<span class="register-required">*</span></label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                  <label for="repassword">Re-enter password<span class="register-required">*</span></label>
+                  <input type="password" class="form-control" id="repassword" placeholder="Password" required>
                 </div>
 
                 <h2>Shipping info</h2>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Street address</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter street address">
+                  <label for="street_address">Street address<span class="register-required">*</span></label>
+                  <input type="text" class="form-control" id="street_address" aria-describedby="emailHelp" placeholder="Enter street address" required>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">City</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter city">
+                  <label for="city">City<span class="register-required">*</span></label>
+                  <input type="text" class="form-control" id="city" aria-describedby="emailHelp" placeholder="Enter city" required>
                 </div>
-                <label for="exampleInputEmail1">State</label>
+                <label for="state">State<span class="register-required">*</span></label>
                 <div class="mb-4">
-                  <select>
+                  <select id="state" required>
                     <option vlaue="N/A">Select state</option>
                     <option value="AL">Alabama</option>
                   	<option value="AK">Alaska</option>
@@ -108,30 +108,30 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Zip code</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter zip code">
+                  <label for="zip">Zip code<span class="register-required">*</span></label>
+                  <input type="number" class="form-control" id="zip" aria-describedby="emailHelp" placeholder="Enter zip code">
                 </div>
 
                 <h2>Payment info</h2>
-                <label for="exampleInputEmail1">Card type</label>
+                <label for="card-type">Card type<span class="register-required">*</span></label>
                 <div class="mb-4">
-                  <select>
+                  <select id="card-type" required>
                     <option vlaue="N/A">Select card type</option>
                     <option value="credit">Credit</option>
                   	<option value="debit">Debit</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Card number</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter card number">
+                  <label for="card_number">Card number<span class="register-required">*</span></label>
+                  <input type="input" class="form-control" id="card_number" aria-describedby="emailHelp" placeholder="Enter card number" required>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Expiration date</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter expiration date">
+                  <label for="exp_date">Expiration date<span class="register-required">*</span></label>
+                  <input type="date" class="form-control" id="exp_date" aria-describedby="emailHelp" placeholder="Enter expiration date" required>
                 </div>
                 <div class="mb-3 form-group">
-                  <label for="exampleInputEmail1">CSV number</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter CSV number">
+                  <label for="csv">CSV number<span class="register-required">*</span></label>
+                  <input type="number" class="form-control" id="csv" aria-describedby="emailHelp" placeholder="Enter CSV number" required>
                 </div>
 
                 <p><span class="register-required">*</span>Required</p>

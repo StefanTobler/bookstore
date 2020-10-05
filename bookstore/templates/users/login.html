@@ -14,16 +14,16 @@
 
               <form class="login-form">
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Account ID or email address</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter ID or email">
+                  <label for="userid">Account ID or email address<span class="register-required">*</span></label>
+                  <input type="text" class="form-control" id="userid" aria-describedby="emailHelp" placeholder="Enter ID or email" required>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                  <label for="password">Password<span class="register-required">*</span></label>
+                  <input type="password" class="form-control" id="password" placeholder="Password" required>
                 </div>
                 <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                  <label class="mb-3 form-check-label" for="exampleCheck1">Remember me</label>
+                  <input type="checkbox" class="form-check-input" id="rememberme">
+                  <label class="mb-3 form-check-label" for="rememberme">Remember me</label>
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
               </form>
