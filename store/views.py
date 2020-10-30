@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import TemplateView
+from django.db.models import Q
 
-from .models import Book, Genre, Item
+from .models import *
 
 class MainView(TemplateView):
 
@@ -55,4 +56,16 @@ class ManageOrdersView(TemplateView):
         return self.get(request, id_url, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {})
+        user = request.user
+        orders = OrderedBook.objects.filter(user=user)
+        test = orders.filter(status=OrderStatus.SHIPPED)
+        print(orders)
+        print(test)
+        current_orders = orders.filter(Q(status=OrderStatus.SHIPPED) | Q(status=OrderStatus.ORDERED))
+        print(current_orders)
+        past_orders = orders.filter(status=OrderStatus.DELIVERED)
+        context = {
+            'current_orders': orders,
+            'past_orders': orders,
+        }
+        return render(request, self.template_name, context)

@@ -210,7 +210,7 @@ footer {
   padding-right: 200px;
 }
 
-.register-required {
+.asteriskField {
   color: red;
 }
 
@@ -240,4 +240,18 @@ footer {
     background-color: var(--main-blue) !important;
     border-color: var(--main-blue) !important;
     color: var(--main-grey);
+}
+
+.alert-error {
+	color: #721c24;
+	background-color: #f8d7da;
+	border-color: #f5c6cb
+}
+
+.alert-error hr {
+	border-top-color: #f1b0b7
+}
+
+.alert-error .alert-link {
+	color: #491217
 }

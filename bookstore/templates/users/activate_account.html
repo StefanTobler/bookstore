@@ -1,0 +1,9 @@
+{% autoescape off %}
+Hello {{ user.first_name }},
+
+Thank you for signing up for Bookstore4050! We look forward to providing you a top of the line bookstore experience.
+
+Please click on the link below to confirm your registration and get access to our wonderful selection of books.
+
+http://{{ domain }}/user/confirm?token={{ token }}
+{% endautoescape %}

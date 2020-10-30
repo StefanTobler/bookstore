@@ -1,147 +1,39 @@
-{% extends "base.html" %}
-{% block content%}
-    <div class="mx-auto mt-3 book-details">
-      <div class="container">
-        <h1>Register</h1>
-      </div>
-
-      <div class="container m-4">
+{% extends "base_register.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="mx-auto mt-3 book-details">
+    <div class="container m-4">
         <div class="row">
-          <div class="col-sm" style="text-align: center;">
-            <div class="p-3 book-price-section">
-              <p class="book-category"><i>tell us about yourself</i></p>
-              <hr>
-
-              <form class="login-form" method="post" action="/user/confirm/">
-                {% csrf_token %}
-                <h2>Personal details</h2>
-                <div class="form-group">
-                  <label for="first_name">First name<span class="register-required">*</span></label>
-                  <input type="text" class="form-control" id="first_name" aria-describedby="emailHelp" placeholder="Enter first name" required>
+            <div class="col-sm" style="text-align: center;">
+                <div class="p-3 book-price-section">
+                    <p class="book-category"><i>tell us about yourself</i></p>
+                    <hr>
+                    <div style="text-align: left;">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                {{ user_form | crispy }}
+                                <h2 class="mt-2">Shipping Info</h2>
+                                {{ store_form | crispy }}
+                                <h2 class="mt-2">Billing Info</h2>
+                                {{ payment_form | crispy }}
+                            </fieldset>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg ">Register</button>
+                            </div>
+                        </form>
+                        <div class="border-top pt-3">
+                            <small class="text-muted">Already have an account?<a class="ml-2"
+                                    href="{% url 'login' %}">Login!</a></small>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                  <label for="last_name">Last name<span class="register-required">*</span></label>
-                  <input type="text" class="form-control" id="last_name" aria-describedby="emailHelp" placeholder="Enter last name" required>
-                </div>
-                <div class="form-group">
-                  <label for="phone">Phone number<span class="register-required">*</span></label>
-                  <input type="tel" class="form-control" id="phone" aria-describedby="emailHelp" placeholder="Enter phone number" required>
-                </div>
-                <div class="form-group">
-                  <label for="email">Email<span class="register-required">*</span></label>
-                  <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required>
-                  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                </div>
-                <div class="form-group">
-                  <label for="password">Password<span class="register-required">*</span></label>
-                  <input type="password" class="form-control" id="password" placeholder="Password" required>
-                </div>
-                <div class="form-group">
-                  <label for="repassword">Re-enter password<span class="register-required">*</span></label>
-                  <input type="password" class="form-control" id="repassword" placeholder="Password" required>
-                </div>
-
-                <h2>Shipping info</h2>
-                <div class="form-group">
-                  <label for="street_address">Street address<span class="register-required">*</span></label>
-                  <input type="text" class="form-control" id="street_address" aria-describedby="emailHelp" placeholder="Enter street address" required>
-                </div>
-                <div class="form-group">
-                  <label for="city">City<span class="register-required">*</span></label>
-                  <input type="text" class="form-control" id="city" aria-describedby="emailHelp" placeholder="Enter city" required>
-                </div>
-                <label for="state">State<span class="register-required">*</span></label>
-                <div class="mb-4">
-                  <select id="state" required>
-                    <option vlaue="N/A">Select state</option>
-                    <option value="AL">Alabama</option>
-                  	<option value="AK">Alaska</option>
-                  	<option value="AZ">Arizona</option>
-                  	<option value="AR">Arkansas</option>
-                  	<option value="CA">California</option>
-                  	<option value="CO">Colorado</option>
-                  	<option value="CT">Connecticut</option>
-                  	<option value="DE">Delaware</option>
-                  	<option value="DC">District Of Columbia</option>
-                  	<option value="FL">Florida</option>
-                  	<option value="GA">Georgia</option>
-                  	<option value="HI">Hawaii</option>
-                  	<option value="ID">Idaho</option>
-                  	<option value="IL">Illinois</option>
-                  	<option value="IN">Indiana</option>
-                  	<option value="IA">Iowa</option>
-                  	<option value="KS">Kansas</option>
-                  	<option value="KY">Kentucky</option>
-                  	<option value="LA">Louisiana</option>
-                  	<option value="ME">Maine</option>
-                  	<option value="MD">Maryland</option>
-                  	<option value="MA">Massachusetts</option>
-                  	<option value="MI">Michigan</option>
-                  	<option value="MN">Minnesota</option>
-                  	<option value="MS">Mississippi</option>
-                  	<option value="MO">Missouri</option>
-                  	<option value="MT">Montana</option>
-                  	<option value="NE">Nebraska</option>
-                  	<option value="NV">Nevada</option>
-                  	<option value="NH">New Hampshire</option>
-                  	<option value="NJ">New Jersey</option>
-                  	<option value="NM">New Mexico</option>
-                  	<option value="NY">New York</option>
-                  	<option value="NC">North Carolina</option>
-                  	<option value="ND">North Dakota</option>
-                  	<option value="OH">Ohio</option>
-                  	<option value="OK">Oklahoma</option>
-                  	<option value="OR">Oregon</option>
-                  	<option value="PA">Pennsylvania</option>
-                  	<option value="RI">Rhode Island</option>
-                  	<option value="SC">South Carolina</option>
-                  	<option value="SD">South Dakota</option>
-                  	<option value="TN">Tennessee</option>
-                  	<option value="TX">Texas</option>
-                  	<option value="UT">Utah</option>
-                  	<option value="VT">Vermont</option>
-                  	<option value="VA">Virginia</option>
-                  	<option value="WA">Washington</option>
-                  	<option value="WV">West Virginia</option>
-                  	<option value="WI">Wisconsin</option>
-                  	<option value="WY">Wyoming</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="zip">Zip code<span class="register-required">*</span></label>
-                  <input type="number" class="form-control" id="zip" aria-describedby="emailHelp" placeholder="Enter zip code">
-                </div>
-
-                <h2>Payment info</h2>
-                <label for="card-type">Card type<span class="register-required">*</span></label>
-                <div class="mb-4">
-                  <select id="card-type" required>
-                    <option vlaue="N/A">Select card type</option>
-                    <option value="credit">Credit</option>
-                  	<option value="debit">Debit</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="card_number">Card number<span class="register-required">*</span></label>
-                  <input type="input" class="form-control" id="card_number" aria-describedby="emailHelp" placeholder="Enter card number" required>
-                </div>
-                <div class="form-group">
-                  <label for="exp_date">Expiration date<span class="register-required">*</span></label>
-                  <input type="date" class="form-control" id="exp_date" aria-describedby="emailHelp" placeholder="Enter expiration date" required>
-                </div>
-                <div class="mb-3 form-group">
-                  <label for="csv">CSV number<span class="register-required">*</span></label>
-                  <input type="number" class="form-control" id="csv" aria-describedby="emailHelp" placeholder="Enter CSV number" required>
-                </div>
-
-                <p><span class="register-required">*</span>Required</p>
-
-                <button type="submit" class="btn btn-primary btn-lg btn-block">Register</button>
-              </form>
-
             </div>
-          </div>
         </div>
-      </div>
     </div>
+</div>
 {% endblock content %}
+{% block javascript %}
+<script src="{% static 'store/js/register.js' %}"></script>
+{% endblock javascript %}

@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>Bookstore4050</title>
+    {% endif %}
+    <link rel="shortcut icon" href="{% static 'favicon.png' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'store/css/mainstyle.css' %}">
+  </head>
+  <body>
+    <div class="main-content">
+    <nav class="navbar navbar-expand-lg bg-light">
+        <a class="navbar-brand" href="{% url 'store-index' %}">Team 4B Online Bookstore</a>
+        <div class="collapse navbar-collapse">
+          <!-- Left Navbar -->
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="/#featured">Featured</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/#top-rated">Top Rated</a>
+              </li>
+          </ul>
+          <!-- Right Navbar-->
+          <ul class="navbar-nav mr-r">
+            {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+            <li class="nav-item dropleft">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> <i class="fas fa-user"> </i></a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'users-editprofile' %}">Your Account</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'users-admin' %}">Admin Panel</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'store-cart' %}"><i class="fas fa-shopping-cart"></i></a>
+            </li>
+            {% else %}
+            <li class="nav-item dropleft">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> <i class="fas fa-user"> </i></a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'users-editprofile' %}">Your Account</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'store-manageorders' %}">Manage Orders</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'store-cart' %}"><i class="fas fa-shopping-cart"></i></a>
+            </li>
+            {% endif %}
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+    </nav>
+    {% block content %} {% endblock %}
+    </div>
+    <footer class="text-center pt-3 pb-3">
+        <small>Icons provided by <a href="https://fontawesome.com/">Font Awesome</a></small>
+    </footer>
+    {% block javascript %} {% endblock javascript %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/ad24df4c4e.js" crossorigin="anonymous"></script>
+    <script>
+      $('.carousel.carousel-multi-item.v-2 .carousel-item').each(function(){
+        var next = $(this).next();
+        if (!next.length) {
+          next = $(this).siblings(':first');
+        }
+        next.children(':first-child').clone().appendTo($(this));
+
+        for (var i=0;i<3;i++) {
+          next=next.next();
+          if (!next.length) {
+            next = $(this).siblings(':first');
+          }
+          next.children(':first-child').clone().appendTo($(this));
+        }
+      });
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyCwu45MNcXlMA9Fr1xE3S54yYdqxt_ZC7k"></script>
+    <script src="/static/js/jquery.geocomplete.min.js"></script>
+    <script src="/static/address/js/address.js"></script>
+  </body>
+</html>

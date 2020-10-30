@@ -16,15 +16,22 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+import environ
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading .env file
+environ.Env.read_env()
+
+# False if not in os.environ
+DEBUG = env('DEBUG')
+
+# Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
+SECRET_KEY = env('SECRET_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9vp4(8r2t&o1b_#*&!6_6vl)gxz0+)oqyfsev3gtkho^tf5&uw'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -34,6 +41,10 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'users',
     'store',
+    'address',
+    'creditcards',
+    'crispy_forms',
+    'phonenumber_field',
     'django_cleanup',
     'django_extensions',
     'django.contrib.admin',
@@ -128,10 +139,19 @@ STATICFILES_DIRS = (
 
 STATIC_URL = '/static/'
 
+PASSWORD_RESET_DONE = '/login/'
+
 # Media Root
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = 'store-index'
-LOGIN_URL = 'login'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+GOOGLE_API_KEY = env('GOOGLE_API_KEY')
+
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = env('EMAIL_PORT')
