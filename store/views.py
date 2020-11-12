@@ -1,8 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import TemplateView
+from django.contrib import messages
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
 from django.db.models import Q
 
 from .models import *
+
+from .forms import AdminBookLookupForm
 
 class MainView(TemplateView):
 
@@ -69,3 +74,48 @@ class ManageOrdersView(TemplateView):
             'past_orders': orders,
         }
         return render(request, self.template_name, context)
+
+class AdminManageBooksView(PermissionRequiredMixin, TemplateView):
+    permission_required = 'User.can_edit'
+    template_name = "store/admin_manage_books.html"
+
+    context = {
+        'title': 'Manage Books'
+    }
+
+    def post(self, request, *args, **kwargs):
+        lookup_form = AdminBookLookupForm(request.POST)
+        # TODO: Filter by Author
+        matched_books = Book.objects.filter(
+                                            title__contains=lookup_form.data['title'],
+                                            isbn__contains=lookup_form.data['isbn'],
+                                            genres__genre__contains=lookup_form.data['genre'],
+
+        ).distinct()
+        # print('TITLE', lookup_form['title'], 'TYPE=', type(lookup_form['title']))
+        # print('ISBN', lookup_form['isbn'], 'TYPE=', type(lookup_form['isbn']))
+        # print('GENRE', lookup_form['genre'], 'TYPE=', type(lookup_form['genre']))
+        #print('QUERY SET', matched_books)
+        if not len(matched_books):
+            self.context.update({
+            'form': lookup_form
+            })
+            messages.error(request, 'No books matching the given criteria were found.')
+        else:
+            # try:
+            #     # Delete the form if it is present
+            #     del self.context['form']
+            # except KeyError:
+            #     pass
+            self.context.update({
+                'books': matched_books
+            })
+        return render(request, self.template_name, self.context)
+
+    def get(self, request, *args, **kwargs):
+        lookup_form = AdminBookLookupForm()
+        self.context.update({
+        'form': lookup_form,
+        'books': Book.objects.all()
+        })
+        return render(request, self.template_name, self.context)

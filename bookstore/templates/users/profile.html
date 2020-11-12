@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_address.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="mx-auto mt-3 book-details">
@@ -79,3 +79,6 @@
   </div>
 </div>
 {% endblock content %}
+{% block javascript %}
+<script src="{% static 'store/js/register.js' %}"></script>
+{% endblock javascript %}

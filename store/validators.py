@@ -9,7 +9,7 @@ def validate_positive(value):
 def validate_rating(value):
     if not 0 <= value <= 5:
         raise ValidationError(
-            _('%(value) is not in the range [0,5].')
+            _(f'{value} is not in the range [0,5].')
         )
 
 def validate_isbn(value):

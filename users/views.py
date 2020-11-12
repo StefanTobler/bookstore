@@ -59,7 +59,7 @@ class EditProfileView(TemplateView):
                 messages.success(request, 'Successfully updated billing information.')
                 self.notify_user_change(request, request.user)
             else:
-                message.error(request, 'Something went wrong when trying to update your information. Try again later.')
+                messages.error(request, 'Something went wrong when trying to update your information. Try again later.')
         elif 'old_password' in request.POST:
             if password_form.is_valid():
                 user = password_form.save()
@@ -67,7 +67,7 @@ class EditProfileView(TemplateView):
                 messages.success(request, 'Your password was successfully updated!')
                 self.notify_user_change(request, request.user, password=True)
             else:
-                message.error(request, 'Something went wrong when trying to update your information. Try again later.')
+                messages.error(request, 'Something went wrong when trying to update your information. Try again later.')
         self.context.update({
             'user_form': user_form,
             'contact_form': contact_form,
