@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'bootstrap-tagsinput/dist/bootstrap-tagsinput.css' %}">
+<link rel="stylesheet" href="{% static 'bootstrap-tagsinput/dist/bootstrap-twitter.css' %}">
+{% endblock css %}
+{% block content%}
+<div class="mx-auto mt-3 book-details">
+  <div class="container m-4">
+    <div class="row">
+      <div class="col-sm">
+        <div class="p-3 book-price-section">
+          <div style="text-align:center;">
+            <p class="book-category"><i>new book</i></p>
+          </div>
+          {% if messages %}
+          {% for message in messages %}
+          <br>
+          <div class="alert alert-{{ message.tags }} text-center" role="alert">{{ message }}</div>
+          {% endfor %}
+          {% endif %}
+          <div class="">
+            <img id="cover_page" class="rounded mx-auto d-block" style="width:auto;height:400px" src="/media/default.jpg">
+          </div>
+          <fieldset class="form-group">
+            <form method="post">
+              {% csrf_token %}
+              {{ form | crispy }}
+              <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-lg ">Create Book</button>
+              </div>
+            </form>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% block javascript %}
+<script type="text/javascript" src="{% static 'store/js/new_book.js'%}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js" crossorigin="anonymous"></script>
+<script src="{% static 'bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js' %}"></script>
+<script src="{% static 'bootstrap-tagsinput/dist/bootstrap-tagsinput-angular.min.js' %}"></script>
+{% endblock javascript %}

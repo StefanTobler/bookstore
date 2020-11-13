@@ -33,7 +33,10 @@ class StoreUser(models.Model):
         return f'{self.user.username} Store User'
 
     def get_status(self):
-        return self.status
+        for choice in self.CHOICES:
+            if choice[0] == self.status:
+                return choice[1]
+        return None
 
     def is_active(self):
         return self.status == self.ACTIVE
