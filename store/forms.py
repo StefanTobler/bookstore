@@ -10,3 +10,9 @@ class AdminBookLookupForm(Form):
     isbn = forms.CharField(max_length=14, required=False)
     author = forms.CharField(max_length=64, required=False)
     genre = forms.ChoiceField(choices=[('','')] + [(x, x) for x in Genre.objects.all()], required=False)
+
+
+class AdminUserLookupForm(Form):
+
+    phone_number = forms.CharField(max_length=128, required=False)
+    username = forms.CharField(max_length=128, required=False)

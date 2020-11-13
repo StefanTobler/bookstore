@@ -19,10 +19,7 @@
 
     <div class="card m-3 mt-n3 rounded-lg admin-home-card" style="width: 18rem;">
       <!-- <img class="card-img-top" src="book-solid.svg" alt="Card image cap"> -->
-      <a class="admin-control" onclick="getElementById('searchbooks').style.display='none';
-        getElementById('booklist').style.display='none';
-        getElementById('editbook').style.display='none';
-        ">
+      <a class="admin-control" onclick="window.location.href='{% url 'store-adminmanageusers'%}'">
         <div class="card-body">
           <h5 class="card-title text-center mb-3">Manage Users</h5>
           <p class="card-text text-center"><i class="fas fa-users fa-10x"></i></p>

@@ -119,3 +119,43 @@ class AdminManageBooksView(PermissionRequiredMixin, TemplateView):
         'books': Book.objects.all()
         })
         return render(request, self.template_name, self.context)
+
+
+class AdminManageUsersView(PermissionRequiredMixin, TemplateView):
+    permission_required = 'User.can_edit'
+    template_name = "store/admin_manage_users.html"
+
+    context = {
+        'title': 'Manage Users'
+    }
+
+    def post(self, request, *args, **kwargs):
+        lookup_form = AdminBookLookupForm(request.POST)
+        matched_users = StoreUser.objects.filter(
+                                            phone_number__contains=lookup_form.data['phone_number'],
+                                            username__contains=lookup_form.data['username'],
+        ).distinct()
+
+        if not len(matched_users):
+            self.context.update({
+            'form': lookup_form
+            })
+            messages.error(request, 'No users matching the given criteria were found.')
+        else:
+            # try:
+            #     # Delete the form if it is present
+            #     del self.context['form']
+            # except KeyError:
+            #     pass
+            self.context.update({
+                'users': matched_users
+            })
+        return render(request, self.template_name, self.context)
+
+    def get(self, request, *args, **kwargs):
+        lookup_form = AdminBookLookupForm()
+        self.context.update({
+            'form': lookup_form,
+            'users': StoreUser.objects.all()
+        })
+        return render(request, self.template_name, self.context)
