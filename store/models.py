@@ -20,9 +20,10 @@ class Item(models.Model):
     image = models.ImageField(default='default.jpg', upload_to='item_images')
     archived = models.BooleanField(default=False)
     sold = models.PositiveIntegerField(default=0)
-    featured = models.BooleanField(default=True)
+    featured = models.BooleanField(default=False)
     rating = models.FloatField(default=0, validators=[validate_rating])
     threshold = models.IntegerField(default=2)
+    reviews = models.PositiveIntegerField(default=0)
 
     class Meta:
         abstract = True
@@ -39,7 +40,7 @@ class Publisher(models.Model):
 class Author(models.Model):
     id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=16)
-    middle_name = models.CharField(max_length=16, default='')
+    middle_name = models.CharField(max_length=16, default='', blank=True)
     last_name = models.CharField(max_length=16)
 
     def __str__(self):
@@ -60,7 +61,7 @@ class Book(Item):
     authors = models.ManyToManyField(Author) # One book could have many authors
     genres = models.ManyToManyField(Genre)
     publication_year = models.PositiveIntegerField()
-    isbn = models.CharField(max_length=14, validators=[validate_isbn]) # this really needs a validator, you could honesty probably use an API
+    isbn = models.CharField(max_length=14, validators=[validate_isbn], unique=True) # this really needs a validator, you could honesty probably use an API
     edition = models.PositiveIntegerField(default=0)
     publisher = models.ForeignKey(Publisher, on_delete=models.DO_NOTHING, blank=True)
 

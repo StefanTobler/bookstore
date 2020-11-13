@@ -1,8 +1,14 @@
 :root {
-    --main-grey:#d9ecf2;
-    --main-pink:#f56a79;
-    --main-red:#ff414d;
-    --main-blue:#1aa6b7;
+  --main-grey: #d9ecf2;
+  --main-pink: #f56a79;
+  --main-red: #ff414d;
+  --main-blue: #1aa6b7;
+}
+
+.pink, .pink:hover {
+   background-color: var(--main-pink) !important;
+   border-color: var(--main-pink) !important;
+   color: var(--main-grey);
 }
 
 body, .main-content, .book-details {
@@ -20,28 +26,28 @@ footer {
 }
 
 .navbar {
-    background-color: var(--main-pink) !important;
-    padding: .75%;
+  background-color: var(--main-pink) !important;
+  padding: .75%;
 }
 
 .navbar .nav-item .nav-link {
-    font-size: large;
-    color: var(--main-grey) !important;
+  font-size: large;
+  color: var(--main-grey) !important;
 }
 
 .navbar-brand {
-    color: var(--main-grey) !important;
+  color: var(--main-grey) !important;
 }
 
 .catalog {
-    margin: 20px;
-    padding: 20px;
+  margin: 20px;
+  padding: 20px;
 }
 
-.catalog > .card, #orderSummary > .card {
-    max-width: 80%;
-    margin: 10px 0px;
-    padding: 10px;
+.catalog>.card, #orderSummary>.card {
+  max-width: 80%;
+  margin: 10px 0px;
+  padding: 10px;
 }
 
 .book-img {
@@ -62,32 +68,42 @@ footer {
   text-decoration: none;
   color: black;
 }
- /*  Sourced from: https://mdbootstrap.com/snippets/jquery/marta-szymanska/307185 */
+
+/*  Sourced from: https://mdbootstrap.com/snippets/jquery/marta-szymanska/307185 */
 .carousel-multi-item.v-2.product-carousel .carousel-inner .carousel-item.active,
 .carousel-multi-item.v-2.product-carousel .carousel-item-next,
 .carousel-multi-item.v-2.product-carousel .carousel-item-prev {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
-  display: flex; }
+  display: flex;
+}
+
 .carousel-multi-item.v-2.product-carousel .carousel-item-right.active,
 .carousel-multi-item.v-2.product-carousel .carousel-item-next {
   -webkit-transform: translateX(20%);
   -ms-transform: translateX(20%);
-  transform: translateX(20%); }
+  transform: translateX(20%);
+}
+
 .carousel-multi-item.v-2.product-carousel .carousel-item-left.active,
 .carousel-multi-item.v-2.product-carousel .carousel-item-prev {
   -webkit-transform: translateX(-20%);
   -ms-transform: translateX(-20%);
-  transform: translateX(-20%); }
+  transform: translateX(-20%);
+}
+
 .carousel-multi-item.v-2.product-carousel .carousel-item-right,
 .carousel-multi-item.v-2.product-carousel .carousel-item-left {
   -webkit-transform: translateX(0);
   -ms-transform: translateX(0);
-  transform: translateX(0); }
+  transform: translateX(0);
+}
+
 .carousel-multi-item.v-2.product-carousel *, .carousel-multi-item.v-2.product-carousel ::after, .carousel-multi-item.v-2.product-carousel ::before {
   -webkit-box-sizing: content-box;
-  box-sizing: content-box; }
+  box-sizing: content-box;
+}
 
 .list-inline-item .fas, .list-inline-item .far {
   font-size: .8rem;
@@ -96,7 +112,7 @@ footer {
 .carousel-multi-item .controls-top .btn-floating {
   background: var(--main-blue);
   color: var(--main-grey);
-  float: right!important;
+  float: right !important;
 }
 
 .carousel-multi-item .controls-top h1 {
@@ -109,34 +125,34 @@ footer {
   max-width: 1rem;
   background-color: var(--main-grey);
 }
+
 .carousel-multi-item .carousel-indicators {
   margin-bottom: -1rem;
 }
 
 /* End carousel */
-
 #featuredBooksList {
-    border-right: solid lightgray;
-    padding-right: 60px;
+  border-right: solid lightgray;
+  padding-right: 60px;
 }
 
 #search {
-    display: block;
-    margin: 20px 0px;
-    padding: 20px;
-    border: solid lightgray;
+  display: block;
+  margin: 20px 0px;
+  padding: 20px;
+  border: solid lightgray;
 }
 
 #orderSummary, #paymentInfo, #shippingInfo {
-    margin: 20px;
+  margin: 20px;
 }
 
-#orderDetails > .collapse, #orderDetails table {
-    margin: 10px;
+#orderDetails>.collapse, #orderDetails table {
+  margin: 10px;
 }
 
 #checkoutBtn {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 
 .book-details {
@@ -153,7 +169,8 @@ footer {
 }
 
 .book-price {
-  color: var(--main-red) !important;;
+  color: var(--main-red) !important;
+  ;
   font-size: 50px;
 }
 
@@ -196,7 +213,8 @@ footer {
 
 .history-status {
   font-size: 30px;
-  color: var(--main-red) !important;;
+  color: var(--main-red) !important;
+  ;
 }
 
 .history-date {
@@ -223,7 +241,7 @@ footer {
   color: var(--main-grey) !important
 }
 
-.admin-control:hover {
+.admin-control:hover, .discover-container:hover {
   cursor: pointer;
 }
 
@@ -234,27 +252,50 @@ footer {
 .btn-primary,
 .btn-primary:hover,
 .btn-primary:active,
-.btn-success:active:focus
-.btn-primary:visited,
+.btn-success:active:focus .btn-primary:visited,
 .btn-primary:focus {
-    background-color: var(--main-blue) !important;
-    border-color: var(--main-blue) !important;
-    color: var(--main-grey);
+  background-color: var(--main-blue) !important;
+  border-color: var(--main-blue) !important;
+  color: var(--main-grey);
 }
 
 .alert-error {
-	color: #721c24;
-	background-color: #f8d7da;
-	border-color: #f5c6cb
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
 }
 
 .alert-error hr {
-	border-top-color: #f1b0b7
+  border-top-color: #f1b0b7;
 }
 
 .alert-error .alert-link {
-	color: #491217
+  color: #491217;
 }
+
+.delete-button, .delete-button:hover {
+  background-color: red !important;
+  border-color: red !important;
+  color: white;
+}
+
+.quick-action {
+  width: 31px;
+  height: 31px;
+}
+
+.page-link, .page-link:hover {
+  background-color: var(--main-blue) !important;
+  border-color: var(--main-grey) !important;
+  color: var(--main-grey);
+}
+
+.restock-button, .restock-button:hover {
+  background-color: green !important;
+  border-color: green !important;
+  color: white;
+}
+
 
 table.dataTable thead .sorting:after,
 table.dataTable thead .sorting:before,
@@ -266,5 +307,13 @@ table.dataTable thead .sorting_desc:after,
 table.dataTable thead .sorting_desc:before,
 table.dataTable thead .sorting_desc_disabled:after,
 table.dataTable thead .sorting_desc_disabled:before {
-bottom: .5em;
+  bottom: .5em;
+}
+
+.label-info {
+  background-color: var(--main-blue) !important;
+}
+
+.bootstrap-tagsinput {
+    width: 100%;
 }
