@@ -6,18 +6,6 @@ from .models import Genre, Book
 
 class EditBookForm(ModelForm):
 
-<<<<<<< HEAD
-    title = forms.CharField(max_length=128, required=False)
-    isbn = forms.CharField(max_length=14, required=False)
-    author = forms.CharField(max_length=64, required=False)
-    genre = forms.ChoiceField(choices=[('','')] + [(x, x) for x in Genre.objects.all()], required=False)
-
-
-class AdminUserLookupForm(Form):
-
-    phone_number = forms.CharField(max_length=128, required=False)
-    username = forms.CharField(max_length=128, required=False)
-=======
     class Meta:
         model = Book
         fields = ['title', 'summary', 'stock', 'threshold', 'selling_price', 'featured', 'archived']
@@ -42,4 +30,3 @@ class NewBookForm(ModelForm):
             'summary': _('Summary'),
             'isbn': _('ISBN'),
         }
->>>>>>> 0b5c6bf07f2f8d1fe1cd83ce0dab678f0d0eb18f
