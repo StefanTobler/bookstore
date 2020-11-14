@@ -19,7 +19,7 @@
           {% endfor %}
           {% endif %}
           <div class="text-right">
-              <button type="submit" onclick="window.location.href='{% url 'store-adminnewbook' %}'" class="btn btn-primary btn">New Book</button>
+              <button type="button" onclick="window.location.href='{% url 'store-adminnewbook' %}'" class="btn btn-primary btn">New Book</button>
           </div>
           <table id="bookTable" class="table table-bordered table-sm table-hover" cellspacing="0" width="100%">
             <thead class="thead-dark">
@@ -31,7 +31,9 @@
                 <th class="th-sm">Price</th>
                 <th class="th-sm">Status</th>
                 <th class="th-sm">Sold</th>
-                <th class="th-sm">Quick Actions</th>
+                <th class="th-sm" hidden>Quick Actions</th>
+                <th class="th-sm" hidden>Authors</th>
+                <th class="th-sm" hidden>Genres</th>
               </tr>
             </thead>
             <tbody>
@@ -54,16 +56,18 @@
                 <td>In Stock</td>
                 {% endif %}
                 <td>{{ book.sold }}</td>
-                <td class="text-center">
+                <td class="text-center" hidden>
                   <form class="align-middle mt-1" method="post">
-                    <input id="archive" hidden value="{{ book.id }}">
+                    <input name="archive" id="archive" hidden value="{{ book.id }}">
                   <button title="Archive Book" type="button" class="quick-action delete-button btn btn-primary btn-sm"><i class="fas fa-trash"></i></button>
                   </form>
-                  <form id="restock" class="align-middle mt-1" method="post">
+                  <form name="restock" id="restock" class="align-middle mt-1" method="post">
                     <input hidden value="r {{ book.id }}">
                   <button title="Restock" type="button" class="quick-action restock-button btn btn-primary btn-sm"><i class="fas fa-box"></i></button>
                   </form>
                 </td>
+                <td hidden>{{ book | get_authors_as_string }}</td>
+                <td hidden>{{ book | get_genres_as_string }}</td>
               </tr>
               {% endfor %}
             </tbody>

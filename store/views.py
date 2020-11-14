@@ -7,6 +7,8 @@ from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from django.utils.datastructures import MultiValueDictKeyError
+
 
 from random import shuffle
 from threading import Thread
@@ -107,8 +109,8 @@ class AdminManageBooksView(AdminView, TemplateView):
         })
         return render(request, self.template_name, self.context)
 
-class AdminManageUsersView(PermissionRequiredMixin, TemplateView):
-    permission_required = 'User.can_edit'
+class AdminManageUsersView(AdminView, TemplateView):
+
     template_name = "store/admin_manage_users.html"
 
     context = {
@@ -134,7 +136,13 @@ class AdminEditBookView(AdminView, TemplateView):
         book = get_object_or_404(Book, id=kwargs.get('id'))
         form = EditBookForm(request.POST, instance=book)
         if form.is_valid():
-            form.save()
+            b = form.save(commit=False)
+            try:
+                image = request.FILES['image']
+            except MultiValueDictKeyError:
+                image = book.image
+            b.image = image
+            b.save()
             messages.success(request, f'Book successfully updated!')
         else:
             messages.error(request, 'Looks like something went wrong. Try again later or contact support.')
@@ -205,11 +213,15 @@ class AdminNewBookView(AdminView, TemplateView):
         form = NewBookForm(request.POST)
         if form.is_valid():
             book = self.book_from_form(request, form)
-            print(self.get_authors(form.data['authors']))
-            book.authors.create(first_name="aaron")
-            for genre in self.get_genress(form.data['genres']):
+            book.save()
+            for author in self.get_authors(form.data['authors']):
+                book.authors.add(author, author.pk)
+            for genre in self.get_genres(form.data['genres']):
                 book.genres.add(genre)
             book.save()
+            messages.success(request, f'Successfully added {form.data["title"]}.')
+            return redirect('store-adminmanagebooks')
+        messages.error(request, f'Looks like something went wrong, check your input and please try again.')
         self.context.update({
             'form': form,
         })
@@ -223,13 +235,18 @@ class AdminNewBookView(AdminView, TemplateView):
         return render(request, self.template_name, self.context)
 
     def book_from_form(self, request, form):
+        try:
+            image = request.FILES['image']
+        except MultiValueDictKeyError:
+            image = 'default.jpg'
         return Book(
-            image=form.data['image'],
+            image=image,
             title=form.data['title'],
             summary=form.data['summary'],
             publication_year=form.data['publication_year'],
             isbn=form.data['isbn'],
             edition=form.data['edition'],
+            stock=form.data['stock'],
             publisher=self.get_publisher(request.POST['publisher_placeholder']),
             threshold=form.data['threshold'],
             selling_price=form.data['selling_price'],
@@ -238,16 +255,20 @@ class AdminNewBookView(AdminView, TemplateView):
         )
 
     def get_publisher(self, publisher):
-        publisher = publisher.title()
+        publisher = publisher.title().strip()
         try:
             return Publisher.objects.get(name=publisher)
         except ObjectDoesNotExist:
-            return Publisher(name=publisher)
+            publisher = Publisher(name=publisher)
+            publisher.save()
+            return publisher
 
     def get_genres(self, genres):
         genres = genres.split(',')
         for i, genre in enumerate(genres):
-            genre = genre.capitalize()
+            print("Before:", genre)
+            genre = genre.strip().capitalize()
+            print("After:", genre)
             try:
                 genres[i] = Genre.objects.get(genre=genre)
             except ObjectDoesNotExist:
@@ -262,7 +283,13 @@ class AdminNewBookView(AdminView, TemplateView):
             author = author.title().split()
             if len(author) > 0:
                 first_name = author[0]
-                if len(authors) == 3:
+                if len(author) == 1:
+                    last_name = ''
+                    middle_name = ''
+                elif len(author) == 2:
+                    last_name = author[1]
+                    middle_name = ''
+                elif len(author) == 3:
                     middle_name = author[1]
                     last_name = author[-1]
                 elif len(author) > 3:
@@ -270,11 +297,8 @@ class AdminNewBookView(AdminView, TemplateView):
                     middle_name = ''
                     for j in range(1, len(author)-1):
                         middle_name += author[j]
-                elif len(author) == 1:
-                    last_name = ''
-                    middle_name = ''
                 else:
-                    last_name = author[1]
+                    last_name = ''
                     middle_name = ''
                 try:
                     db_author = Author.objects.get(first_name=first_name,

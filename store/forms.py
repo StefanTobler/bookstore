@@ -6,13 +6,13 @@ from django.contrib.admin.widgets import FilteredSelectMultiple, RelatedFieldWid
 import datetime
 import pytz
 
-from .models import Genre, Book, Author, Promotion, StoreUser, User
+from .models import Genre, Book, Author, Promotion, StoreUser, User, Publisher
 
 class EditBookForm(ModelForm):
 
     class Meta:
         model = Book
-        fields = ['title', 'summary', 'stock', 'threshold', 'selling_price', 'featured', 'archived']
+        fields = ['image', 'title', 'summary', 'stock', 'threshold', 'selling_price', 'featured', 'archived']
         labels = {
             'title': _('Title'),
             'summary': _('Summary'),
@@ -42,11 +42,13 @@ class EditUserForm(ModelForm):
 
 class NewBookForm(ModelForm):
 
-    # authors = forms.CharField(max_length=1024, help_text='This is a comma seperated list of authors.', widget=forms.TextInput(attrs={'data-role':'tagsinput'}))
-    # genres = forms.CharField(max_length=1024, help_text='This is a comma seperated list of genres.', widget=forms.TextInput(attrs={'data-role':'tagsinput'}))
-    authors = forms.ModelMultipleChoiceField(queryset=Author.objects.order_by('first_name'), help_text='This is a comma seperated list of authors.')
-    genres = forms.ModelMultipleChoiceField(queryset=Genre.objects.order_by('genre'), help_text='This is a comma seperated list of genres.', widget=forms.TextInput())
+    authors = forms.CharField(max_length=1024, help_text='This is a comma seperated list of authors.', widget=forms.TextInput(attrs={'data-role':'tagsinput'}))
+    genres = forms.CharField(max_length=1024, help_text='This is a comma seperated list of genres.', widget=forms.TextInput(attrs={'data-role':'tagsinput'}))
     image = forms.ImageField(required=False)
+    publisher = forms.MultipleChoiceField(required=False)
+
+    def clean_publisher(self):
+        return Publisher.objects.all()[0]
 
     class Meta:
         model = Book
