@@ -6,7 +6,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple, RelatedFieldWid
 import datetime
 import pytz
 
-from .models import Genre, Book, Author, Promotion
+from .models import Genre, Book, Author, Promotion, StoreUser, User
 
 class EditBookForm(ModelForm):
 
@@ -17,6 +17,28 @@ class EditBookForm(ModelForm):
             'title': _('Title'),
             'summary': _('Summary'),
         }
+
+
+class EditStoreUserForm(ModelForm):
+
+    class Meta:
+        model = StoreUser
+        fields = ['status', 'is_employee']
+        labels = {
+            'status': _('Status'),
+            'is_employee': _('Employee'),
+        }
+
+
+class EditUserForm(ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['is_superuser']
+        labels = {
+            'is_superuser': _('Admin'),
+        }
+
 
 class NewBookForm(ModelForm):
 
