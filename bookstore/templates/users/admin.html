@@ -1,203 +1,43 @@
 {% extends "base.html" %}
 {% load store_filters %}
 {% block content%}
-  <div class="jumbotron text-center admin-home mt-2">
-    <h1>Admin Home</h1>
-  </div>
+<div class="jumbotron text-center admin-home mt-2">
+  <h1>Admin Home</h1>
+</div>
 
-  <div class="container" id="home" style="display:block">
-    <div class="col d-flex justify-content-center">
-      <div class="card m-3 mt-n3 rounded-lg admin-home-card" style="width: 18rem;">
-        <!-- <img class="card-img-top" src="book-solid.svg" alt="Card image cap"> -->
-        <a class="admin-control" onclick="getElementById('searchbooks').style.display='block';
-        getElementById('booklist').style.display='none';
-        getElementById('editbook').style.display='none';
-        getElementById('home').style.display='none';
-        ">
+<div class="container" id="home" style="display:block">
+  <div class="col d-flex justify-content-center">
+    <div class="card m-3 mt-n3 rounded-lg admin-home-card" style="width: 18rem;">
+      <!-- <img class="card-img-top" src="book-solid.svg" alt="Card image cap"> -->
+      <a class="admin-control" onclick="window.location.href='{% url 'store-adminmanagebooks'%}'">
         <div class="card-body">
           <h5 class="card-title text-center mb-3">Manage Books</h5>
           <p class="card-text text-center"><i class="fas fa-book fa-10x"></i></p>
         </div>
-        </a>
-      </div>
+      </a>
+    </div>
 
-      <div class="card m-3 mt-n3 rounded-lg admin-home-card" style="width: 18rem;">
-        <!-- <img class="card-img-top" src="book-solid.svg" alt="Card image cap"> -->
-        <a class="admin-control" onclick="getElementById('searchbooks').style.display='none';
-        getElementById('booklist').style.display='none';
-        getElementById('editbook').style.display='none';
-        ">
+    <div class="card m-3 mt-n3 rounded-lg admin-home-card" style="width: 18rem;">
+      <!-- <img class="card-img-top" src="book-solid.svg" alt="Card image cap"> -->
+      <a class="admin-control" onclick="window.location.href='{% url 'store-adminmanageusers'%}'">
         <div class="card-body">
           <h5 class="card-title text-center mb-3">Manage Users</h5>
           <p class="card-text text-center"><i class="fas fa-users fa-10x"></i></p>
         </div>
-        </a>
-      </div>
-    </div>
-
-    <div class="col d-flex justify-content-center">
-
-      <div class="card m-3 rounded-lg admin-home-card" style="width: 18rem;">
-        <a class="admin-control onclick="getElementById('searchbooks').style.display='none';
-        getElementById('booklist').style.display='none';
-        getElementById('editbook').style.display='none';
-        ">
-        <div class="card-body">
-          <h5 class="card-title text-center mb-3">Manage Promotions</h5>
-          <p class="card-text text-center"><i class="fas fa-tags fa-10x"></i></p>
-        </div>
-        </a>
-      </div>
-
-      <div class="card m-3 rounded-lg admin-home-card" style="width: 18rem;">
-        <a class="admin-control" onclick="getElementById('searchbooks').style.display='none';
-        getElementById('booklist').style.display='none';
-        getElementById('editbook').style.display='none';
-        ">
-        <div class="card-body">
-          <h5 class="card-title text-center mb-3">Manage Sales</h5>
-          <p class="card-text text-center"><i class="fas fa-money-bill-wave fa-10x"></i></p>
-        </div>
-        </a>
-      </div>
+      </a>
     </div>
   </div>
 
-<div class="container">
-    <form class="row" id="searchbooks" style="display:none">
-        <h1>Search Bookstore</h1>
-        <div class="form-group">
-            <label for="titleInput">Title</label>
-            <input id="titleInput" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="isbnInput">ISBN #</label>
-            <input id="isbnInput" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="authorInput">Author</label>
-            <input id="authorInput" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="subjectSelect">Subject</label>
-            <select class="custom-select" id="subjectSelect">
-                <option selected>Select a subject</option>
-                <option value="1">Classic Literature</option>
-                <option value="2">Modern Literature</option>
-                <option value="3">Textbooks</option>
-            </select>
-        </div>
-        <button type="button" class="btn btn-primary"
-        onclick="getElementById('searchbooks').style.display='none';
-        getElementById('booklist').style.display='block';
-        ">Search</button>
-    </form>
+  <div class="col d-flex justify-content-center">
+
+    <div class="card m-3 rounded-lg admin-home-card" style="width: 18rem;">
+      <a class="admin-control onclick=" getElementById('searchbooks').style.display='none' ; getElementById('booklist').style.display='none' ; getElementById('editbook').style.display='none' ; ">
+        <div class=" card-body">
+        <h5 class="card-title text-center mb-3">Manage Promotions</h5>
+        <p class="card-text text-center"><i class="fas fa-tags fa-10x"></i></p>
+    </div>
+    </a>
   </div>
-<div class="container mt-n4 mb-5" id='booklist' style="display:none">
-  <table class="table table-light table-hover">
-    <thead class="thead-dark">
-      <tr>
-        <th>Title</th>
-        <th>ISBN</th>
-        <th>Author</th>
-        <th>Edition</th>
-        <th>Publication</th>
-        <th>Publisher</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for book in books %}
-      <tr onclick="getElementById('booklist').style.display='none';
-      getElementById('editbook').style.display='block';
-      ">
-        <td>{{ book.title }}</td>
-        <td>{{ book.isbn }}</td>
-        <td>{{ book | get_authors_as_string }}</td>
-        <td>{{ book.edition }}</td>
-        <td>{{ book.publication_year }}</td>
-        <td>{{ book.publisher }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
 </div>
-  <div class="container" p id="editbook" style="display:none">
-    <div class="form-group">
-       <label class="col-md-3 control-label">Title:</label>
-       <div class="col-md-8">
-          <input class="form-control" type="text" value="BookTitle">
-       </div>
-    </div>
-    <div class="form-group">
-       <label class="col-md-3 control-label">ISBN:</label>
-       <div class="col-md-8">
-          <input class="form-control" type="text" value="12343523">
-       </div>
-    </div>
-    <div class="form-group">
-       <label class="col-md-3 control-label">Author:</label>
-       <div class="col-md-8">
-          <input class="form-control" type="text" value="Benjamin Tanner">
-       </div>
-    </div>
-    <div class="form-group">
-       <label class="col-md-3 control-label">Publisher:</label>
-       <div class="col-md-8">
-          <input class="form-control" type="text" value="Mcgraw">
-       </div>
-    </div>
-    <div class="form-group">
-       <label class="col-md-3 control-label">Publication Year:</label>
-       <div class="col-md-8">
-          <input class="form-control" type="text" value="1928">
-       </div>
-    </div>
-    <div class="form-group">
-       <label class="col-md-3 control-label">Category:</label>
-       <div class="col-md-8">
-          <input class="form-control" type="text" value="Horror">
-       </div>
-    </div>
-    <div class="form-group">
-       <label class="col-md-3 control-label">Edition:</label>
-       <div class="col-md-8">
-          <input class="form-control" type="text" value="">
-       </div>
-    </div>
-    <div class="form-group">
-       <label class="col-md-3 control-label">Quantity in-stock:</label>
-       <div class="col-md-8">
-          <input class="form-control" type="text" value="24">
-       </div>
-    </div>
-    <div class="form-group">
-       <label class="col-md-3 control-label">Minimum Threshold:</label>
-       <div class="col-md-8">
-          <input class="form-control" type="text" value="2">
-       </div>
-    </div>
-    <div class="form-group">
-       <label class="col-md-3 control-label">Buying Price:</label>
-       <div class="col-md-8">
-          <input class="form-control" type="text" value="6.99">
-       </div>
-    </div>
-    <div class="form-group">
-       <label class="col-md-3 control-label">Selling Price:</label>
-       <div class="col-md-8">
-          <input class="form-control" type="text" value="12.99">
-       </div>
-    </div>
-
-    <div class="form-group">
-       <label class="col-md-3 control-label"></label>
-       <div class="col-md-8">
-          <button type="submit" lass="btn btn-primary">Save Changes</button>
-          <span></span>
-          <input type="reset" class="btn btn-default" value="Cancel"
-          onclick="getElementById('editbook').style.display='none';
-          getElementById('home').style.display='block';">
-       </div>
-    </div>
-  </div>
+</div>
 {% endblock content %}
