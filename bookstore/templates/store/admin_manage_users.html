@@ -34,7 +34,7 @@
               </thead>
               <tbody>
                 {% for user in users %}
-                <tr>
+                <tr id="{{ book.id }}" onclick="window.location.href='{% url 'store-adminedituser' id=user.user.id %}'">
                   <td>{{ user.user.first_name|add:" "|add:user.user.last_name }}</td>
                   <td>{{ user.user.username }}</td>
                   <td>{{ user.user.email }}</td>

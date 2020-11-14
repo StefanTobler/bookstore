@@ -9,7 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from random import shuffle
 
 from .models import *
-from .forms import EditBookForm, NewBookForm
+from .forms import EditBookForm, NewBookForm, EditStoreUserForm, EditUserForm
 
 class MainView(TemplateView):
 
@@ -171,6 +171,44 @@ class AdminEditBookView(AdminView, TemplateView):
             'form': form,
         })
         return render(request, self.template_name, self.context)
+
+
+class AdminEditUserView(AdminView, TemplateView):
+
+    template_name = "store/admin_edit_user.html"
+
+    context = {}
+
+    def post(self, request, *args, **kwargs):
+        user = StoreUser.objects.filter(user__id=kwargs.get('id')).get()
+        form = EditStoreUserForm(request.POST, instance=user)
+        form2 = EditUserForm(request.POST, instance=user.user)
+        if form.is_valid() and form2.is_valid():
+            form.save()
+            form2.save()
+            messages.success(request, f'User successfully updated!')
+        else:
+            messages.error(request, 'Looks like something went wrong. Try again later or contact support.')
+        self.context.update({
+            'user': user,
+            'title': 'Edit - ' + user.user.username,
+            'form': form,
+            'form2': form2,
+        })
+        return render(request, self.template_name, self.context)
+
+    def get(self, request, *args, **kwargs):
+        user = StoreUser.objects.filter(user__id=kwargs.get('id')).get()
+        form = EditStoreUserForm(initial=user.__dict__)
+        form2 = EditUserForm(initial=user.user.__dict__)
+        self.context.update({
+            'user': user,
+            'title': 'Edit - ' + user.user.username,
+            'form': form,
+            'form2': form2,
+        })
+        return render(request, self.template_name, self.context)
+
 
 class AdminNewBookView(AdminView, TemplateView):
 

@@ -2,7 +2,7 @@ from django import forms
 from django.forms import Form, ModelForm
 from django.utils.translation import gettext_lazy as _
 
-from .models import Genre, Book
+from .models import Genre, Book, StoreUser, User
 
 class EditBookForm(ModelForm):
 
@@ -13,6 +13,28 @@ class EditBookForm(ModelForm):
             'title': _('Title'),
             'summary': _('Summary'),
         }
+
+
+class EditStoreUserForm(ModelForm):
+
+    class Meta:
+        model = StoreUser
+        fields = ['status', 'is_employee']
+        labels = {
+            'status': _('Status'),
+            'is_employee': _('Employee'),
+        }
+
+
+class EditUserForm(ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['is_superuser']
+        labels = {
+            'is_superuser': _('Admin'),
+        }
+
 
 class NewBookForm(ModelForm):
 
