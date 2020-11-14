@@ -18,16 +18,16 @@
           <div class="">
             <table style="margin: auto; border-collapse: separate; border-spacing: 10px;">
               <tr>
-                <td style="font-weight: bold;">Name:</td><td>{{ user.user.first_name|add:" "|add:user.user.last_name }}</td>
+                <td style="font-weight: bold;">Name:</td><td>{{ storeuser.user.first_name|add:" "|add:storeuser.user.last_name }}</td>
               </tr>
               <tr>
-                <td style="font-weight: bold;">Username:</td><td>{{ user.user.username }}</td>
+                <td style="font-weight: bold;">Username:</td><td>{{ storeuser.user.username }}</td>
               </tr>
               <tr>
-                <td style="font-weight: bold;">Email:</td><td>{{ user.user.email }}</td>
+                <td style="font-weight: bold;">Email:</td><td>{{ storeuser.user.email }}</td>
               </tr>
               <tr>
-                <td style="font-weight: bold;">Phone:</td><td>{{ user.phone_number }}</td>
+                <td style="font-weight: bold;">Phone:</td><td>{{ storeuser.phone_number }}</td>
               </tr>
             </table>
           </div>
@@ -35,7 +35,7 @@
             <form method="post">
               {% csrf_token %}
               {{ form | crispy }}
-              {% if user.is_employee %}
+              {% if storeuser.is_employee %}
                 {{ form2 | crispy }}
               {% endif %}
               <div class="form-group">

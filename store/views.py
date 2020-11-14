@@ -85,6 +85,7 @@ class ManageOrdersView(TemplateView):
             'past_orders': orders,
         }
         return render(request, self.template_name, context)
+
 class AdminView(PermissionRequiredMixin):
     permission_required = 'User.can_edit'
 
@@ -115,32 +116,10 @@ class AdminManageUsersView(PermissionRequiredMixin, TemplateView):
     }
 
     def post(self, request, *args, **kwargs):
-        # lookup_form = AdminBookLookupForm(request.POST)
-        # matched_users = StoreUser.objects.filter(
-        #                                     phone_number__contains=lookup_form.data['phone_number'],
-        #                                     username__contains=lookup_form.data['username'],
-        # ).distinct()
-
-        # if not len(matched_users):
-        #     self.context.update({
-        #     'form': lookup_form
-        #     })
-        #     messages.error(request, 'No users matching the given criteria were found.')
-        # else:
-        #     # try:
-        #     #     # Delete the form if it is present
-        #     #     del self.context['form']
-        #     # except KeyError:
-        #     #     pass
-        #     self.context.update({
-        #         'users': matched_users
-        #     })
         return render(request, self.template_name, self.context)
 
     def get(self, request, *args, **kwargs):
-        # lookup_form = AdminBookLookupForm()
         self.context.update({
-            # 'form': lookup_form,
             'users': StoreUser.objects.all()
         })
         return render(request, self.template_name, self.context)
@@ -194,7 +173,7 @@ class AdminEditUserView(AdminView, TemplateView):
         else:
             messages.error(request, 'Looks like something went wrong. Try again later or contact support.')
         self.context.update({
-            'user': user,
+            'userstore': user,
             'title': 'Edit - ' + user.user.username,
             'form': form,
             'form2': form2,
@@ -206,7 +185,7 @@ class AdminEditUserView(AdminView, TemplateView):
         form = EditStoreUserForm(initial=user.__dict__)
         form2 = EditUserForm(initial=user.user.__dict__)
         self.context.update({
-            'user': user,
+            'storeuser': user,
             'title': 'Edit - ' + user.user.username,
             'form': form,
             'form2': form2,
