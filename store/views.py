@@ -5,11 +5,15 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 
 from random import shuffle
+from threading import Thread
+
 
 from .models import *
-from .forms import EditBookForm, NewBookForm
+from .forms import EditBookForm, NewBookForm, NewPromoForm
 
 class MainView(TemplateView):
 
@@ -144,7 +148,12 @@ class AdminNewBookView(AdminView, TemplateView):
     def post(self, request, *args, **kwargs):
         form = NewBookForm(request.POST)
         if form.is_valid():
-            book = self.book_from_form(form)
+            book = self.book_from_form(request, form)
+            print(self.get_authors(form.data['authors']))
+            book.authors.create(first_name="aaron")
+            for genre in self.get_genress(form.data['genres']):
+                book.genres.add(genre)
+            book.save()
         self.context.update({
             'form': form,
         })
@@ -157,17 +166,15 @@ class AdminNewBookView(AdminView, TemplateView):
         })
         return render(request, self.template_name, self.context)
 
-    def book_from_form(self, form):
+    def book_from_form(self, request, form):
         return Book(
             image=form.data['image'],
             title=form.data['title'],
             summary=form.data['summary'],
-            authors=self.get_authors(form.data['authors']),
-            genres=self.get_genres(form.data['genres']),
             publication_year=form.data['publication_year'],
             isbn=form.data['isbn'],
             edition=form.data['edition'],
-            publisher=self.get_publisher(form.data['publisher']),
+            publisher=self.get_publisher(request.POST['publisher_placeholder']),
             threshold=form.data['threshold'],
             selling_price=form.data['selling_price'],
             buying_price=form.data['buying_price'],
@@ -189,6 +196,7 @@ class AdminNewBookView(AdminView, TemplateView):
                 genres[i] = Genre.objects.get(genre=genre)
             except ObjectDoesNotExist:
                 genres[i] = Genre(genre=genre)
+                genres[i].save()
         return genres
 
     def get_authors(self, authors):
@@ -220,5 +228,103 @@ class AdminNewBookView(AdminView, TemplateView):
                     db_author = Author(first_name=first_name,
                                         middle_name=middle_name,
                                         last_name=last_name)
+                    db_author.save()
                 real_authors.append(db_author)
         return real_authors
+
+class AdminPromosView(AdminView, TemplateView):
+
+    template_name = "store/admin_promos.html"
+
+    context = {
+        'title': 'Promotions'
+    }
+
+    def post(self, request, *args, **kwargs):
+        return self.get(request, args, kwargs)
+
+    def get(self, request, *args, **kwargs):
+        self.context.update({
+            'promos': Promotion.objects.all()
+        })
+        return render(request, self.template_name, self.context)
+
+class AdminNewPromoView(AdminView, TemplateView):
+
+    template_name = "store/admin_new_promo.html"
+
+    context = {
+        'title': 'Create Promotion',
+        'button': 'Create and Send'
+    }
+
+    def post(self, request, *args, **kwargs):
+        form = NewPromoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            Thread(target=self.send_promo, args=(form, )).start()
+            messages.success(request, f'{form.data["title"]} added!')
+            return redirect('store-adminmanagepromos')
+        self.context.update({
+            'form': form,
+        })
+        return render(request, self.template_name, self.context)
+
+    def get(self, request, *args, **kwargs):
+        form = NewPromoForm()
+        self.context.update({
+            'form': form,
+        })
+        return render(request, self.template_name, self.context)
+
+    def send_promo(self, form):
+        mail_subject = f'{form.data["title"]} - Bookstore4050'
+        expiry = form.data['expiry']
+        title = form.data['title']
+        code = form.data['code']
+        discount_type = form.data['discount_type']
+        discount_amount = form.data['discount_amount']
+        users = StoreUser.objects.filter(subscribed=True)
+        for user in users:
+            message = render_to_string('store/promotion.html', {
+                    'user': user.user,
+                    'expiry': expiry,
+                    'title': title,
+                    'code': code,
+                    'discount_type': discount_type,
+                    'discount_amount': discount_amount,
+            })
+            email = EmailMessage(
+                    mail_subject, message, to=[user.user.email]
+            )
+            email.send()
+        return
+
+class AdminEditPromosView(AdminView, TemplateView):
+
+    template_name = "store/admin_new_promo.html"
+
+    context = {
+        'title': 'Edit Promotion',
+        'button': 'Update'
+    }
+
+    def post(self, request, *args, **kwargs):
+        promo = get_object_or_404(Promotion, code=kwargs.get('code'))
+        form = NewPromoForm(request.POST, instance=promo)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'{promo.title} updated!')
+            return redirect('store-adminmanagepromos')
+        self.context.update({
+            'form': form,
+        })
+        return render(request, self.template_name, self.context)
+
+    def get(self, request, *args, **kwargs):
+        promo = get_object_or_404(Promotion, code=kwargs.get('code'))
+        form = NewPromoForm(instance=promo)
+        self.context.update({
+            'form': form,
+        })
+        return render(request, self.template_name, self.context)

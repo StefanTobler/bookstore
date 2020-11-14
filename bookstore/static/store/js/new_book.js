@@ -1,15 +1,22 @@
 var coverPage = document.getElementById('cover_page')
 
 window.onload = (event) => {
-  var labels = document.getElementsByTagName('LABEL');
-  for (var i = 0; i < labels.length; i++) {
-    if (labels[i].htmlFor != '') {
-      var elem = document.getElementById(labels[i].htmlFor);
-      if (elem)
-        elem.label = labels[i];
-    }
-  }
-  document.getElementById('id_featured').label.setAttribute('class', 'form-check-label ml-4')
+  // var newNode = document.createElement('input')
+  // var referenceNode = document.getElementById('div_id_publisher').childNodes[3];
+  // var parentNode = document.getElementById('div_id_publisher');
+  //
+  // newNode.setAttribute('id', 'id_author_placeholder');
+  // newNode.setAttribute('required', '');
+  // newNode.setAttribute('class','textinput textInput form-control');
+  // newNode.setAttribute('maxlength', '128');
+  // newNode.setAttribute('type', 'text');
+  // newNode.setAttribute('name', 'publisher_placeholder');
+  //
+  // parentNode.insertBefore(newNode, referenceNode);
+  // referenceNode.setAttribute('hidden', '');
+  // referenceNode.childNodes[1].value = 0;
+  // document.getElementById('id_publisher').options[1].setAttribute('selected', '');
+  // document.getElementById('id_publisher').options[0].removeAttribute('selected');
 }
 
 function readURL(input) {

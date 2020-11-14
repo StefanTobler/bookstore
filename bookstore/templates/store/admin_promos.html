@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+{% load store_filters %}
+{% block css %}
+<link href="{% static 'mdbootstrap/css/addons/datatables.min.css' %}" rel="stylesheet">
+{% endblock css %}
+{% block content %}
+<div class="mx-auto mt-3 book-details">
+  <div class="container m-4">
+    <div class="row">
+      <div class="col-sm">
+        <div class="p-3 book-price-section">
+          <div style="text-align:center;">
+            <p class="book-category"><i>manage promotions</i></p>
+          </div> {% if messages %}
+          {% for message in messages %}
+          <br>
+          <div class="alert alert-{{ message.tags }} text-center" role="alert">{{ message }}</div>
+          {% endfor %}
+          {% endif %}
+          <div class="text-right">
+              <button type="submit" onclick="window.location.href='{% url 'store-adminnewpromo' %}'" class="btn btn-primary btn">New Promotion</button>
+          </div>
+          <table id="bookTable" class="table table-bordered table-sm table-hover" cellspacing="0" width="100%">
+            <thead class="thead-dark">
+              <tr>
+                <th class="th-sm">Title</th>
+                <th class="th-sm">Expiry</th>
+                <th class="th-sm">Code</th>
+                <th class="th-sm">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for promo in promos %}
+              <tr id="{{ promo.code }}" onclick="window.location.href='{% url 'store-admineditpromos' code=promo.code%}'">
+                <td>{{ promo.title }}</td>
+                <td>{{ promo.expiry }}</td>
+                <td>{{ promo.code }}</td>
+                {% if promo.discount_type == "P" %}
+                <td>{{ promo.discount_amount }}%</td>
+                {% else %}
+                <td>${{ promo.discount_amount }}</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% block javascript %}
+<script type="text/javascript" src="{% static 'mdbootstrap/js/addons/datatables.min.js' %}"></script>
+<script>
+  $(document).ready(function() {
+    $('#bookTable').DataTable({
+      "order": [
+        [1, "desc"]
+      ],
+      "aaSorting": [],
+      columnDefs: [{
+        orderable: false,
+        targets: [2]
+      }]
+    });
+    $('.dataTables_length').addClass('bs-select');
+  });
+</script>
+{% endblock javascript %}

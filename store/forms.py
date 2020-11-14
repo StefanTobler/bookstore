@@ -1,8 +1,12 @@
 from django import forms
 from django.forms import Form, ModelForm
 from django.utils.translation import gettext_lazy as _
+from django.contrib.admin.widgets import FilteredSelectMultiple, RelatedFieldWidgetWrapper
 
-from .models import Genre, Book
+import datetime
+import pytz
+
+from .models import Genre, Book, Author, Promotion
 
 class EditBookForm(ModelForm):
 
@@ -16,10 +20,12 @@ class EditBookForm(ModelForm):
 
 class NewBookForm(ModelForm):
 
-    authors = forms.CharField(max_length=1024, help_text='This is a comma seperated list of authors.', widget=forms.TextInput(attrs={'data-role':'tagsinput'}))
-    genres = forms.CharField(max_length=1024, help_text='This is a comma seperated list of genres.', widget=forms.TextInput(attrs={'data-role':'tagsinput'}))
-    publisher = forms.CharField(max_length=128)
+    # authors = forms.CharField(max_length=1024, help_text='This is a comma seperated list of authors.', widget=forms.TextInput(attrs={'data-role':'tagsinput'}))
+    # genres = forms.CharField(max_length=1024, help_text='This is a comma seperated list of genres.', widget=forms.TextInput(attrs={'data-role':'tagsinput'}))
+    authors = forms.ModelMultipleChoiceField(queryset=Author.objects.order_by('first_name'), help_text='This is a comma seperated list of authors.')
+    genres = forms.ModelMultipleChoiceField(queryset=Genre.objects.order_by('genre'), help_text='This is a comma seperated list of genres.', widget=forms.TextInput())
     image = forms.ImageField(required=False)
+
     class Meta:
         model = Book
         fields = ['image', 'title', 'summary', 'authors', 'genres',
@@ -29,4 +35,37 @@ class NewBookForm(ModelForm):
             'title': _('Title'),
             'summary': _('Summary'),
             'isbn': _('ISBN'),
+        }
+
+class NewPromoForm(ModelForm):
+
+    expiry = forms.DateTimeField(
+        widget=forms.TextInput(
+            attrs={'type': 'datetime-local'}
+    ))
+
+    def clean_expiry(self):
+        # First make the time string a datetime
+        #time = datetime.datetime.strptime(self.cleaned_data['expiry'], '%Y-%m-%dT%H:%M')
+        utc=pytz.UTC
+        expiry = self.cleaned_data['expiry'].replace(tzinfo=utc)
+        now = datetime.datetime.now().replace(tzinfo=utc)
+        if expiry < now:
+             raise forms.ValidationError('Promotion cannot expire in the past!')
+        return expiry
+
+    def clean_discount_amount(self):
+        discount_type = self.cleaned_data['discount_type']
+        discount_amount = self.cleaned_data['discount_amount']
+        if discount_type == 'P' and discount_amount > 100:
+            raise forms.ValidationError('Discount amount cannot be more than 100%')
+        return discount_amount
+
+    class Meta:
+        model = Promotion
+        fields = ['title', 'expiry', 'code', 'discount_type', 'discount_amount']
+        labels = {
+            'title': _('Title'),
+            'discount_type': _('Discount Type'),
+            'discount_amount': _('Discount Amount'),
         }

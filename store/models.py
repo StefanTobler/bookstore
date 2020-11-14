@@ -63,7 +63,7 @@ class Book(Item):
     publication_year = models.PositiveIntegerField()
     isbn = models.CharField(max_length=14, validators=[validate_isbn], unique=True) # this really needs a validator, you could honesty probably use an API
     edition = models.PositiveIntegerField(default=0)
-    publisher = models.ForeignKey(Publisher, on_delete=models.DO_NOTHING, blank=True)
+    publisher = models.ForeignKey(Publisher, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.title
@@ -98,6 +98,9 @@ class Promotion(models.Model):
     code = models.CharField(max_length=20, unique=True)
     discount_type = models.CharField(max_length=1, choices=DISCOUNT_TYPE)
     discount_amount = models.FloatField()
+
+    def __str__(self):
+        return f'Promotion {self.code} - {self.title}'
 
 
 class Cart(models.Model):
