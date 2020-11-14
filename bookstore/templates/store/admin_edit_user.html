@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content%}
+<div class="mx-auto mt-3 book-details">
+  <div class="container m-4">
+    <div class="row">
+      <div class="col-sm">
+        <div class="p-3 book-price-section">
+          <div style="text-align:center;">
+            <p class="book-category"><i>edit user</i></p>
+          </div>
+          {% if messages %}
+          {% for message in messages %}
+          <br>
+          <div class="alert alert-{{ message.tags }} text-center" role="alert">{{ message }}</div>
+          {% endfor %}
+          {% endif %}
+          <div class="">
+            <table style="margin: auto; border-collapse: separate; border-spacing: 10px;">
+              <tr>
+                <td style="font-weight: bold;">Name:</td><td>{{ storeuser.user.first_name|add:" "|add:storeuser.user.last_name }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight: bold;">Username:</td><td>{{ storeuser.user.username }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight: bold;">Email:</td><td>{{ storeuser.user.email }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight: bold;">Phone:</td><td>{{ storeuser.phone_number }}</td>
+              </tr>
+            </table>
+          </div>
+          <fieldset class="form-group">
+            <form method="post">
+              {% csrf_token %}
+              {{ form | crispy }}
+              {% if storeuser.is_employee %}
+                {{ form2 | crispy }}
+              {% endif %}
+              <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-lg ">Update</button>
+              </div>
+            </form>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
