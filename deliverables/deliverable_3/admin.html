@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Online Bookstore Home</title>
+    <link rel="shortcut icon" href="static/favicon.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/store/css/mainstyle.css">
+  </head>
+  <body>
+    <div class="main-content">
+    <nav class="navbar navbar-expand-lg bg-light">
+        <a class="navbar-brand" href="index.html#">Team 4B Online Bookstore</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#featured">Featured</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#top-rated">Top Rated</a>
+              </li>
+          </ul>
+          <ul class="navbar-nav mr-r">
+            <li class="nav-item dropleft">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> <i class="fas fa-user"> </i></a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="edit_profile.html">Edit Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="orders.html">Manage Orders</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Logout</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+            </li>
+          </ul>
+        </div>
+    </nav>
+
+  <div class="jumbotron text-center admin-home mt-2">
+    <h1>Admin Home</h1>
+  </div>
+
+  <div class="container" id="home" style="display:block">
+    <div class="col d-flex justify-content-center">
+      <div class="card m-3 mt-n3 rounded-lg admin-home-card" style="width: 18rem;">
+        <!-- <img class="card-img-top" src="book-solid.svg" alt="Card image cap"> -->
+        <a class="admin-control" onclick="getElementById('searchbooks').style.display='block';
+        getElementById('booklist').style.display='none';
+        getElementById('editbook').style.display='none';
+        getElementById('home').style.display='none';
+        ">
+        <div class="card-body">
+          <h5 class="card-title text-center mb-3">Manage Books</h5>
+          <p class="card-text text-center"><i class="fas fa-book fa-10x"></i></p>
+        </div>
+        </a>
+      </div>
+
+      <div class="card m-3 mt-n3 rounded-lg admin-home-card" style="width: 18rem;">
+        <!-- <img class="card-img-top" src="book-solid.svg" alt="Card image cap"> -->
+        <a class="admin-control" onclick="getElementById('searchbooks').style.display='none';
+        getElementById('booklist').style.display='none';
+        getElementById('editbook').style.display='none';
+        ">
+        <div class="card-body">
+          <h5 class="card-title text-center mb-3">Manage Users</h5>
+          <p class="card-text text-center"><i class="fas fa-users fa-10x"></i></p>
+        </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col d-flex justify-content-center">
+
+      <div class="card m-3 rounded-lg admin-home-card" style="width: 18rem;">
+        <a class="admin-control onclick="getElementById('searchbooks').style.display='none';
+        getElementById('booklist').style.display='none';
+        getElementById('editbook').style.display='none';
+        ">
+        <div class="card-body">
+          <h5 class="card-title text-center mb-3">Manage Promotions</h5>
+          <p class="card-text text-center"><i class="fas fa-tags fa-10x"></i></p>
+        </div>
+        </a>
+      </div>
+
+      <div class="card m-3 rounded-lg admin-home-card" style="width: 18rem;">
+        <a class="admin-control" onclick="getElementById('searchbooks').style.display='none';
+        getElementById('booklist').style.display='none';
+        getElementById('editbook').style.display='none';
+        ">
+        <div class="card-body">
+          <h5 class="card-title text-center mb-3">Manage Sales</h5>
+          <p class="card-text text-center"><i class="fas fa-money-bill-wave fa-10x"></i></p>
+        </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+<div class="container">
+    <form class="row" id="searchbooks" style="display:none">
+        <h1>Search Bookstore</h1>
+        <div class="form-group">
+            <label for="titleInput">Title</label>
+            <input id="titleInput" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="isbnInput">ISBN #</label>
+            <input id="isbnInput" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="authorInput">Author</label>
+            <input id="authorInput" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="subjectSelect">Subject</label>
+            <select class="custom-select" id="subjectSelect">
+                <option selected>Select a subject</option>
+                <option value="1">Classic Literature</option>
+                <option value="2">Modern Literature</option>
+                <option value="3">Textbooks</option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-primary"
+        onclick="getElementById('searchbooks').style.display='none';
+        getElementById('booklist').style.display='block';
+        ">Search</button>
+    </form>
+  </div>
+<div class="container mt-n4 mb-5" id='booklist' style="display:none">
+  <table class="table table-light table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th>Title</th>
+        <th>ISBN</th>
+        <th>Author</th>
+        <th>Edition</th>
+        <th>Publication</th>
+        <th>Publisher</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr onclick="getElementById('booklist').style.display='none';
+      getElementById('editbook').style.display='block';
+      ">
+        <td>Advanced Programming in the UNIX Environment</td>
+        <td>9780321637734</td>
+        <td>W.  Stevens, Stephen  Rago</td>
+        <td>3</td>
+        <td>2013</td>
+        <td>Addison-Wesley Professional</td>
+      </tr>
+
+      <tr onclick="getElementById('booklist').style.display='none';
+      getElementById('editbook').style.display='block';
+      ">
+        <td>The Man Who Solved the Market: How Jim Simons Launched the Quant Revolution</td>
+        <td>073521798X</td>
+        <td>Gregory  Zuckerman</td>
+        <td>0</td>
+        <td>2019</td>
+        <td>Portfolio</td>
+      </tr>
+
+      <tr onclick="getElementById('booklist').style.display='none';
+      getElementById('editbook').style.display='block';
+      ">
+        <td>Bad Blood: Secrets and Lies in a Silicon Valley Startup</td>
+        <td>0525431993</td>
+        <td>John  Carreyrou</td>
+        <td>0</td>
+        <td>2018</td>
+        <td>Vintage</td>
+      </tr>
+
+      <tr onclick="getElementById('booklist').style.display='none';
+      getElementById('editbook').style.display='block';
+      ">
+        <td>Into the Wild</td>
+        <td>0385486804</td>
+        <td>Jon  Krakauer</td>
+        <td>0</td>
+        <td>1997</td>
+        <td>Anchor Books</td>
+      </tr>
+
+      <tr onclick="getElementById('booklist').style.display='none';
+      getElementById('editbook').style.display='block';
+      ">
+        <td>A Gentleman in Moscow</td>
+        <td>0143110438</td>
+        <td>Amor  Towles</td>
+        <td>0</td>
+        <td>2019</td>
+        <td>Penguin Books</td>
+      </tr>
+
+      <tr onclick="getElementById('booklist').style.display='none';
+      getElementById('editbook').style.display='block';
+      ">
+        <td>Educated: A Memoir</td>
+        <td>978-0399590504</td>
+        <td>Tara  Westover</td>
+        <td>0</td>
+        <td>2018</td>
+        <td>Random House</td>
+      </tr>
+
+      <tr onclick="getElementById('booklist').style.display='none';
+      getElementById('editbook').style.display='block';
+      ">
+        <td>Beneath a Scarlet Sky</td>
+        <td>1503943372</td>
+        <td>Mark  Sullivan</td>
+        <td>0</td>
+        <td>2017</td>
+        <td>Lake Union Publishing</td>
+      </tr>
+
+      <tr onclick="getElementById('booklist').style.display='none';
+      getElementById('editbook').style.display='block';
+      ">
+        <td>All the Light We Cannot See</td>
+        <td>1501173219</td>
+        <td>Anthony  Doerr</td>
+        <td>0</td>
+        <td>2017</td>
+        <td>Scribner</td>
+      </tr>
+
+      <tr onclick="getElementById('booklist').style.display='none';
+      getElementById('editbook').style.display='block';
+      ">
+        <td>Vietnamerica: A Family&#x27;s Journey</td>
+        <td>0345508726</td>
+        <td>GB  Tran</td>
+        <td>0</td>
+        <td>2011</td>
+        <td>Villard</td>
+      </tr>
+
+      <tr onclick="getElementById('booklist').style.display='none';
+      getElementById('editbook').style.display='block';
+      ">
+        <td>Welcome to Night Vale</td>
+        <td>978-0062351432</td>
+        <td>Joseph  Fink</td>
+        <td>0</td>
+        <td>2017</td>
+        <td>Harper Perennial</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+  <div class="container" p id="editbook" style="display:none">
+    <div class="form-group">
+       <label class="col-md-3 control-label">Title:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="BookTitle">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">ISBN:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="12343523">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Author:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="Benjamin Tanner">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Publisher:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="Mcgraw">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Publication Year:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="1928">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Category:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="Horror">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Edition:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Quantity in-stock:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="24">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Minimum Threshold:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="2">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Buying Price:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="6.99">
+       </div>
+    </div>
+    <div class="form-group">
+       <label class="col-md-3 control-label">Selling Price:</label>
+       <div class="col-md-8">
+          <input class="form-control" type="text" value="12.99">
+       </div>
+    </div>
+
+    <div class="form-group">
+       <label class="col-md-3 control-label"></label>
+       <div class="col-md-8">
+          <button type="submit" lass="btn btn-primary">Save Changes</button>
+          <span></span>
+          <input type="reset" class="btn btn-default" value="Cancel"
+          onclick="getElementById('editbook').style.display='none';
+          getElementById('home').style.display='block';">
+       </div>
+    </div>
+  </div>
+
+    </div>
+    <footer class="text-center pt-3 pb-3">
+        <small>Icons provided by <a href="https://fontawesome.com/">Font Awesome</a></small>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/ad24df4c4e.js" crossorigin="anonymous"></script>
+    <script>
+      $('.carousel.carousel-multi-item.v-2 .carousel-item').each(function(){
+        var next = $(this).next();
+        if (!next.length) {
+          next = $(this).siblings(':first');
+        }
+        next.children(':first-child').clone().appendTo($(this));
+
+        for (var i=0;i<3;i++) {
+          next=next.next();
+          if (!next.length) {
+            next = $(this).siblings(':first');
+          }
+          next.children(':first-child').clone().appendTo($(this));
+        }
+      });
+    </script>
+  </body>
+</html>
