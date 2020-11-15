@@ -27,12 +27,16 @@ class StoreUser(models.Model):
     status = models.CharField(max_length=10, choices=CHOICES, default=INACTIVE)
     subscribed = models.BooleanField(default=False)
     activation_token = models.CharField(max_length=40, blank=True)
+    is_employee = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user.username} Store User'
 
     def get_status(self):
-        return self.status
+        for choice in self.CHOICES:
+            if choice[0] == self.status:
+                return choice[1]
+        return None
 
     def is_active(self):
         return self.status == self.ACTIVE

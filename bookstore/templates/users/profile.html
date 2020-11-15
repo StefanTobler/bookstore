@@ -1,6 +1,7 @@
-{% extends "base.html" %}
+{% extends "base_address.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+{% load static %}
 <div class="mx-auto mt-3 book-details">
   <div class="container m-4">
     <div class="p-3 book-price-section">
@@ -79,3 +80,6 @@
   </div>
 </div>
 {% endblock content %}
+{% block javascript %}
+<script src="{% static 'store/js/register.js' %}"></script>
+{% endblock javascript %}

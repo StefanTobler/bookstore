@@ -1,4 +1,5 @@
 from django import template
+import datetime
 
 register = template.Library()
 
@@ -37,3 +38,17 @@ def get_selling_price_taxes(items):
 @register.filter(name="get_total_price")
 def get_total_price(items):
     return round(get_selling_price_taxes(items) + selling_price_sum(items), 2)
+
+@register.filter(name="get_status_name")
+def get_status_name(code):
+    if code == "A":
+        return "Active"
+    if code == "I":
+        return "Inactive"
+    if code == "S":
+        return "Suspended"
+
+@register.filter(name="get_date")
+def get_date(date):
+    date = datetime.datetime.strptime(date, '%Y-%m-%dT%H:%M')
+    return f'{date.strftime("%B %d, %Y, %H:%M:%S")}'

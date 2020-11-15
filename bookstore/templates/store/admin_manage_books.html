@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+{% load store_filters %}
+{% block css %}
+<link href="{% static 'mdbootstrap/css/addons/datatables.min.css' %}" rel="stylesheet">
+{% endblock css %}
+{% block content %}
+<div class="mx-auto mt-3 book-details">
+  <div class="container m-4">
+    <div class="row">
+      <div class="col-sm">
+        <div class="p-3 book-price-section">
+          <div style="text-align:center;">
+            <p class="book-category"><i>manage books</i></p>
+          </div> {% if messages %}
+          {% for message in messages %}
+          <br>
+          <div class="alert alert-{{ message.tags }} text-center" role="alert">{{ message }}</div>
+          {% endfor %}
+          {% endif %}
+          <div class="text-right">
+              <button type="button" onclick="window.location.href='{% url 'store-adminnewbook' %}'" class="btn btn-primary btn">New Book</button>
+          </div>
+          <table id="bookTable" class="table table-bordered table-sm table-hover" cellspacing="0" width="100%">
+            <thead class="thead-dark">
+              <tr>
+                <th class="th-sm"></th>
+                <th class="th-sm">ISBN</th>
+                <th class="th-sm">Title</th>
+                <th class="th-sm">Stock</th>
+                <th class="th-sm">Price</th>
+                <th class="th-sm">Status</th>
+                <th class="th-sm">Sold</th>
+                <th class="th-sm" hidden>Quick Actions</th>
+                <th class="th-sm" hidden>Authors</th>
+                <th class="th-sm" hidden>Genres</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for book in books %}
+              <tr id="{{ book.id }}" onclick="window.location.href='{% url 'store-admineditbook' id=book.id %}'">
+                <td> <img class="mx-auto"src="{{ book.image.url }}" alt="{{ book.title }}" style="width:auto;height:75px;"></td>
+                <td>{{ book.isbn }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.stock }}</td>
+                <td>${{ book.selling_price }}</td>
+                {% if book.archived %}
+                <td>Archived</td>
+                {% elif book.stock < 0 %}
+                <td class="asteriskField">Backorder</td>
+                {% elif book.stock <= 0 %}
+                <td class="asteriskField">Out of Stock</td>
+                {% elif book.stock < book.threshold %}
+                <td style="color:yellow;">Low Stock</td>
+                {% else %}
+                <td>In Stock</td>
+                {% endif %}
+                <td>{{ book.sold }}</td>
+                <td class="text-center" hidden>
+                  <form class="align-middle mt-1" method="post">
+                    <input name="archive" id="archive" hidden value="{{ book.id }}">
+                  <button title="Archive Book" type="button" class="quick-action delete-button btn btn-primary btn-sm"><i class="fas fa-trash"></i></button>
+                  </form>
+                  <form name="restock" id="restock" class="align-middle mt-1" method="post">
+                    <input hidden value="r {{ book.id }}">
+                  <button title="Restock" type="button" class="quick-action restock-button btn btn-primary btn-sm"><i class="fas fa-box"></i></button>
+                  </form>
+                </td>
+                <td hidden>{{ book | get_authors_as_string }}</td>
+                <td hidden>{{ book | get_genres_as_string }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% block javascript %}
+<script type="text/javascript" src="{% static 'mdbootstrap/js/addons/datatables.min.js' %}"></script>
+<script>
+  $(document).ready(function() {
+    $('#bookTable').DataTable({
+      "order": [
+        [2, "asc"]
+      ],
+      "aaSorting": [],
+      columnDefs: [{
+        orderable: false,
+        targets: [0, 7]
+      }]
+    });
+    $('.dataTables_length').addClass('bs-select');
+  });
+</script>
+{% endblock javascript %}

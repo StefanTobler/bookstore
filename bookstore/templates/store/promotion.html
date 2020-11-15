@@ -1,0 +1,16 @@
+{% load store_filters %}
+{% autoescape off %}
+Hello {{ user.first_name }},
+
+We have a new promotion running from NOW until {{ expiry | get_date }}.
+
+Get your hands on our wonderful collection of books and buy one as a gift aswell!
+
+With this promotion you get a total of {% if discount_type == "P" %}{{discount_amount}}%{% else %}${{discount_amount}}{% endif %} any order!
+Use the code below to redeem this offer!
+
+CODE: {{code}}
+
+- Bookstore4050
+
+{% endautoescape %}

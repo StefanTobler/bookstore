@@ -1,6 +1,7 @@
+*.sqlite3
 __pycache__/
 *.pyc
 .DS_Store
 /deliverable_3/
 .env
-db.sqlite3
+*.sqlite3

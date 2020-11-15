@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content%}
+<div class="mx-auto mt-3 book-details">
+  <div class="container m-4">
+    <div class="row">
+      <div class="col-sm">
+        <div class="p-3 book-price-section">
+          <div style="text-align:center;">
+            <p class="book-category"><i>edit book</i></p>
+          </div>
+          {% if messages %}
+          {% for message in messages %}
+          <br>
+          <div class="alert alert-{{ message.tags }} text-center" role="alert">{{ message }}</div>
+          {% endfor %}
+          {% endif %}
+          <div class="">
+            <img id="cover_page" class="rounded mx-auto d-block" style="width:auto;height:400px" src="{{ book.image.url }}">
+          </div>
+          <fieldset class="form-group">
+            <form method="post" enctype='multipart/form-data'>
+              {% csrf_token %}
+              {{ form | crispy }}
+              <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-lg ">Update</button>
+              </div>
+            </form>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% block javascript %}
+<script type="text/javascript">
+  var coverPage = document.getElementById('cover_page')
+
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        coverPage.src = e.target.result;
+      }
+
+      reader.readAsDataURL(input.files[0]); // convert to base64 string
+    }
+  }
+
+  $("#id_image").change(function() {
+    readURL(this);
+  });
+</script>
+{% endblock javascript %}

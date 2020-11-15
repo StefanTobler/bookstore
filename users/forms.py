@@ -65,7 +65,7 @@ class PaymentForm(ModelForm):
             'billing_address': _('Billing Address')
         }
 
-class UserEditForm(forms.ModelForm):
+class UserEditForm(ModelForm):
 
     class Meta:
         model = User
