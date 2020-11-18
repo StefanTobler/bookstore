@@ -1,0 +1,243 @@
+:root {
+    --main-grey:#d9ecf2;
+    --main-pink:#f56a79;
+    --main-red:#ff414d;
+    --main-blue:#1aa6b7;
+}
+
+body, .main-content, .book-details {
+  background-color: var(--main-grey) !important;
+}
+
+footer {
+  background-color: var(--main-blue);
+  color: var(--main-grey);
+}
+
+.main-content {
+  min-height: 100vh;
+  position: relative;
+}
+
+.navbar {
+    background-color: var(--main-pink) !important;
+    padding: .75%;
+}
+
+.navbar .nav-item .nav-link {
+    font-size: large;
+    color: var(--main-grey) !important;
+}
+
+.navbar-brand {
+    color: var(--main-grey) !important;
+}
+
+.catalog {
+    margin: 20px;
+    padding: 20px;
+}
+
+.catalog > .card, #orderSummary > .card {
+    max-width: 80%;
+    margin: 10px 0px;
+    padding: 10px;
+}
+
+.book-img {
+  width: 30%;
+  height: 10%;
+}
+
+.summary {
+  font-size: small;
+}
+
+.book-link {
+  color: black;
+}
+
+.book-link:hover {
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+ /*  Sourced from: https://mdbootstrap.com/snippets/jquery/marta-szymanska/307185 */
+.carousel-multi-item.v-2.product-carousel .carousel-inner .carousel-item.active,
+.carousel-multi-item.v-2.product-carousel .carousel-item-next,
+.carousel-multi-item.v-2.product-carousel .carousel-item-prev {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; }
+.carousel-multi-item.v-2.product-carousel .carousel-item-right.active,
+.carousel-multi-item.v-2.product-carousel .carousel-item-next {
+  -webkit-transform: translateX(20%);
+  -ms-transform: translateX(20%);
+  transform: translateX(20%); }
+.carousel-multi-item.v-2.product-carousel .carousel-item-left.active,
+.carousel-multi-item.v-2.product-carousel .carousel-item-prev {
+  -webkit-transform: translateX(-20%);
+  -ms-transform: translateX(-20%);
+  transform: translateX(-20%); }
+.carousel-multi-item.v-2.product-carousel .carousel-item-right,
+.carousel-multi-item.v-2.product-carousel .carousel-item-left {
+  -webkit-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0); }
+.carousel-multi-item.v-2.product-carousel *, .carousel-multi-item.v-2.product-carousel ::after, .carousel-multi-item.v-2.product-carousel ::before {
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box; }
+
+.list-inline-item .fas, .list-inline-item .far {
+  font-size: .8rem;
+}
+
+.carousel-multi-item .controls-top .btn-floating {
+  background: var(--main-blue);
+  color: var(--main-grey);
+  float: right!important;
+}
+
+.carousel-multi-item .controls-top h1 {
+  display: inline;
+}
+
+.carousel-multi-item .carousel-indicators .active {
+  height: 1rem;
+  width: 1rem;
+  max-width: 1rem;
+  background-color: var(--main-grey);
+}
+.carousel-multi-item .carousel-indicators {
+  margin-bottom: -1rem;
+}
+
+/* End carousel */
+
+#featuredBooksList {
+    border-right: solid lightgray;
+    padding-right: 60px;
+}
+
+#search {
+    display: block;
+    margin: 20px 0px;
+    padding: 20px;
+    border: solid lightgray;
+}
+
+#orderSummary, #paymentInfo, #shippingInfo {
+    margin: 20px;
+}
+
+#orderDetails > .collapse, #orderDetails table {
+    margin: 10px;
+}
+
+#checkoutBtn {
+    margin-top: 40px;
+}
+
+.book-details {
+  background-color: white;
+  width: 1200px;
+}
+
+.book-cover {
+  width: 300px;
+}
+
+.book-price-section {
+  background-color: #ebebeb;
+}
+
+.book-price {
+  color: var(--main-red) !important;;
+  font-size: 50px;
+}
+
+.book-category {
+  color: #c4c4c4;
+  font-size: 50px;
+}
+
+.book-publisher {
+  color: #c4c4c4;
+  font-size: 25px;
+}
+
+.book-summary {
+  color: black;
+  font-size: 14px;
+  text-align: left;
+}
+
+.book-rating {
+  font-size: 40px;
+  color: lightgrey;
+}
+
+.book-rating-color {
+  color: #F7E107;
+}
+
+.history-item {
+  background-color: #f2f2f2;
+}
+
+.history-book-cover {
+  width: 100px;
+}
+
+.history-book-title {
+  font-size: 18px;
+}
+
+.history-status {
+  font-size: 30px;
+  color: var(--main-red) !important;;
+}
+
+.history-date {
+  font-size: 16px;
+  color: #828282;
+  margin-top: -15px;
+}
+
+.login-form {
+  padding-left: 200px;
+  padding-right: 200px;
+}
+
+.register-required {
+  color: red;
+}
+
+.confirmation-text {
+  font-size: 25px;
+}
+
+.admin-home-card {
+  background-color: var(--main-blue) !important;
+  color: var(--main-grey) !important
+}
+
+.admin-control:hover {
+  cursor: pointer;
+}
+
+.admin-home {
+  background-color: var(--main-grey) !important;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-success:active:focus
+.btn-primary:visited,
+.btn-primary:focus {
+    background-color: var(--main-blue) !important;
+    border-color: var(--main-blue) !important;
+    color: var(--main-grey);
+}

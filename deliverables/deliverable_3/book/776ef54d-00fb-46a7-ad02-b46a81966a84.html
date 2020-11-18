@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Online Bookstore Home</title>
+    <link rel="shortcut icon" href="../static/favicon.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/store/css/mainstyle.css">
+  </head>
+  <body>
+    <div class="main-content">
+    <nav class="navbar navbar-expand-lg bg-light">
+        <a class="navbar-brand" href="../index.html">Team 4B Online Bookstore</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="../index.html#featured">Featured</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../index.html#top-rated">Top Rated</a>
+              </li>
+          </ul>
+          <ul class="navbar-nav mr-r">
+            <li class="nav-item dropleft">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> <i class="fas fa-user"> </i></a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="../edit_profile.html">Edit Profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="../orders.html">Manage Orders</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Logout</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../cart.html"><i class="fas fa-shopping-cart"></i></a>
+            </li>
+          </ul>
+        </div>
+    </nav>
+
+    <div class="mx-auto mt-3 mb-3 book-details">
+      <div class="container">
+        <h1>Welcome to Night Vale</h1>
+        <h3>By Joseph  Fink</h3>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <img src="../media/item_images/welcome_to_nightvale.jpg" class="book-cover img-fluid " alt="Responsive image">
+            <p class="book-rating">
+              <span class="book-rating-color">★★★★</span>★
+            </p>
+            <p>
+              <b>ISBN:</b> 978-0062351432<br>
+
+            </p>
+          </div>
+          <div class="col-sm" style="text-align: center;">
+            <div class="book-price-section">
+              <p class="book-category">Fantasy, Horror, Fiction</p>
+              <p class="book-publisher">Published by Harper Perennial<br>Published in 2017</p>
+              <p class="book-summary ml-4 mr-4">From the creators of the #1 international hit podcast Welcome to Night Vale comes an imaginative mystery of appearances and disappearances that is also a poignant look at the ways in which we all struggle to find ourselves . . . no matter where we live.
+
+Welcome to Night Vale . . . a friendly desert community somewhere in the American Southwest. In this ordinary little town where ghosts, angels, aliens, and government conspiracies are commonplace parts of everyday life, the lives of two women, with two mysteries, are about to converge.
+
+Pawnshop proprietor Jackie Fierro abides by routine. But a crack appears in the standard order of her perpetually nineteen-year-old life when a mysterious man in a tan jacket gives her a slip of paper marked by two pencil-smudged words: KING CITY. Everything about the man unsettles her, especially the paper that she cannot remove from her hand. Yet when Jackie puts her life on hold to search for the man, no one who meets him can seem to remember anything about him.
+
+Diane Crayton’s fifteen-year-old son, Josh, is moody and a shape-shifter. Lately, Diane has started to see the boy’s father everywhere she goes, looking the same as he did the day he left when they were teenagers. Josh is growing ever more curious about his estranged father—leading to a disaster Diane can see coming but is helpless to prevent.
+
+Diane’s search to reconnect with her son and Jackie’s search to reclaim her routine life draw them increasingly closer to each other, and to this place that may hold the key to their mysteries and their futures . . . if they can ever find it.</p>
+              <p class="book-price">$12.99</p>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg btn-block"><b>Add to cart</b></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+    <footer class="text-center pt-3 pb-3">
+        <small>Icons provided by <a href="https://fontawesome.com/">Font Awesome</a></small>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/ad24df4c4e.js" crossorigin="anonymous"></script>
+    <script>
+      $('.carousel.carousel-multi-item.v-2 .carousel-item').each(function(){
+        var next = $(this).next();
+        if (!next.length) {
+          next = $(this).siblings(':first');
+        }
+        next.children(':first-child').clone().appendTo($(this));
+
+        for (var i=0;i<3;i++) {
+          next=next.next();
+          if (!next.length) {
+            next = $(this).siblings(':first');
+          }
+          next.children(':first-child').clone().appendTo($(this));
+        }
+      });
+    </script>
+  </body>
+</html>

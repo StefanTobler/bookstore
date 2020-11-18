@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Online Bookstore Home</title>
+    <link rel="shortcut icon" href="static/favicon.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/store/css/mainstyle.css">
+  </head>
+  <body>
+    <div class="main-content">
+      <nav class="navbar navbar-expand-lg bg-light">
+          <a class="navbar-brand" href="index.html#">Team 4B Online Bookstore</a>
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html#featured">Featured</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html#top-rated">Top Rated</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav mr-r">
+              <li class="nav-item dropleft">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"> <i class="fas fa-user"> </i></a>
+                  <div class="dropdown-menu">
+                      <a class="dropdown-item" href="edit_profile.html">Edit Profile</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="orders.html">Manage Orders</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Logout</a>
+                  </div>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+              </li>
+            </ul>
+          </div>
+      </nav>
+
+         <div class="container mt-3">
+            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-100 rounded-circle">
+            <div class="media-body ml-5">
+               <h4 class="font-weight-bold mb-4">Jane Bishop</h4>
+               <form class="form-horizontal" role="form">
+               <div class="form-group" p id = "fn" style="display:block" >
+                  <label class="col-lg-3 control-label">First name:</label>
+                  <div class="col-lg-8">
+                     <input class="form-control" type="text" value="Jane">
+                  </div>
+               </div>
+               <div class="form-group" p id = "ln" style="display:block">
+                  <label class="col-lg-3 control-label">Last name:</label>
+                  <div class="col-lg-8">
+                     <input class="form-control" type="text" value="Bishop">
+                  </div>
+               </div>
+               <div class="form-group" p id = "email" style="display:block">
+                  <label class="col-lg-3 control-label">Email:</label>
+                  <div class="col-lg-8">
+                     <input class="form-control" type="text" value="janesemail@gmail.com">
+                  </div>
+               </div>
+               <div class="form-group" p id = "un" style="display:block">
+                  <label class="col-md-3 control-label">Username:</label>
+                  <div class="col-md-8">
+                     <input class="form-control" type="text" value="janeuser">
+                  </div>
+               </div>
+               <div class="form-group" p id = "ps" style="display:block">
+                  <label class="col-md-3 control-label">Password:</label>
+                  <div class="col-md-8">
+                     <input class="form-control" type="password" value="11111122333">
+                  </div>
+               </div>
+               <div class="form-group" p id = "cps" style="display:block">
+                  <label class="col-md-3 control-label">Confirm password:</label>
+                  <div class="col-md-8">
+                     <input class="form-control" type="password" value="11111122333">
+                  </div>
+               </div>
+               <div class="form-group" p id = "ccn" style="display:none" >
+                  <label class="col-md-3 control-label">Card Number:</label>
+                  <div class="col-md-8">
+                     <input class="form-control" type="text" value="1234544567">
+                  </div>
+               </div>
+               <div class="form-group" p id = "cct" style="display:none" >
+                 <label class="col-md-3 control-label">Card Type:</label>
+                 <div class="col-md-8">
+                   <select class="custom-select" id="cardTypeSelect">
+                       <option selected>Select a card type</option>
+                       <option value="1">Mastercard</option>
+                       <option value="2">American Express</option>
+                       <option value="3">Visa</option>
+                       <option value="4">Discover</option>
+                   </select>
+                 </div>
+               </div>
+               <div class="form-group" p id = "cce" style="display:none" >
+                  <label class="col-md-3 control-label">Card Expiration Date:</label>
+                  <div class="col-md-8">
+                     <input class="form-control" type="text" value="11111122333">
+                  </div>
+               </div>
+               <div class="form-group" p id = "sa" style="display:none" >
+                  <label class="col-md-3 control-label">Street Address:</label>
+                  <div class="col-md-8">
+                     <input class="form-control" type="text" value="123 Millburt Rd.">
+                  </div>
+               </div>
+               <div class="form-group" p id = "city" style="display:none" >
+                  <label class="col-md-3 control-label">City:</label>
+                  <div class="col-md-8">
+                     <input class="form-control" type="text" value="Athens">
+                  </div>
+               </div>
+               <div class="form-group" p id = "state" style="display:none" >
+                  <label class="col-md-3 control-label">State:</label>
+                  <div class="col-md-8">
+                     <input class="form-control" type="text" value="GA">
+                  </div>
+               </div>
+               <div class="form-group" p id = "zip" style="display:none" >
+                  <label class="col-md-3 control-label">Zipcode:</label>
+                  <div class="col-md-8">
+                     <input class="form-control" type="text" value="12345">
+                  </div>
+               </div>
+               <script>
+                  function toggleSettings() {
+                    if (document.getElementById('fn').style.display == 'block') {
+                      document.getElementById('ccn').style.display='block';
+                      document.getElementById('cct').style.display='block';
+                      document.getElementById('cce').style.display='block';
+                      document.getElementById('sa').style.display='block';
+                      document.getElementById('city').style.display='block';
+                      document.getElementById('state').style.display='block';
+                      document.getElementById('zip').style.display='block';
+                      document.getElementById('fn').style.display='none';
+                      document.getElementById('ln').style.display='none';
+                      document.getElementById('email').style.display='none';
+                      document.getElementById('un').style.display='none';
+                      document.getElementById('ps').style.display='none';
+                      document.getElementById('cps').style.display='none';
+                      document.getElementById('editbtn').value="Edit Profile Settings";
+                    } else {
+                      document.getElementById('ccn').style.display='none';
+                      document.getElementById('cct').style.display='none';
+                      document.getElementById('cce').style.display='none';
+                      document.getElementById('sa').style.display='none';
+                      document.getElementById('city').style.display='none';
+                      document.getElementById('state').style.display='none';
+                      document.getElementById('zip').style.display='none';
+                      document.getElementById('fn').style.display='block';
+                      document.getElementById('ln').style.display='block';
+                      document.getElementById('email').style.display='block';
+                      document.getElementById('un').style.display='block';
+                      document.getElementById('ps').style.display='block';
+                      document.getElementById('cps').style.display='block';
+                      document.getElementById('editbtn').value="Edit Payment & Shipping";
+                    }
+                  }
+               </script>
+               <div class="form-group">
+                  <label class="col-md-3 control-label"></label>
+                  <div class="col-md-8">
+                     <input type="button" class="btn btn-primary" value="Save Changes">
+                     <span></span>
+                     <input type="button" id = 'editbtn' class="btn btn-primary" value="Edit Payment & Shipping"
+                        onclick="toggleSettings()">
+                     <input type="reset" class="btn btn-default" value="Cancel">
+                  </div>
+               </div>
+            </div>
+            <hr class="m-0">
+         </div>
+      </div>
+      </div>
+      <!-- Content -->
+
+    </div>
+    <footer class="text-center pt-3 pb-3">
+        <small>Icons provided by <a href="https://fontawesome.com/">Font Awesome</a></small>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/ad24df4c4e.js" crossorigin="anonymous"></script>
+    <script>
+      $('.carousel.carousel-multi-item.v-2 .carousel-item').each(function(){
+        var next = $(this).next();
+        if (!next.length) {
+          next = $(this).siblings(':first');
+        }
+        next.children(':first-child').clone().appendTo($(this));
+
+        for (var i=0;i<3;i++) {
+          next=next.next();
+          if (!next.length) {
+            next = $(this).siblings(':first');
+          }
+          next.children(':first-child').clone().appendTo($(this));
+        }
+      });
+    </script>
+  </body>
+</html>
