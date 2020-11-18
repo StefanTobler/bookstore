@@ -41,6 +41,9 @@ class StoreUser(models.Model):
     def is_active(self):
         return self.status == self.ACTIVE
 
+    def is_suspended(self):
+        return self.status == self.SUSPENDED
+        
     def activate(self):
         self.status = self.ACTIVE
         return True

@@ -129,6 +129,8 @@ class LoginView(TemplateView):
         if user is not None and store_user.is_active():
             login(request, user)
             return redirect('store-index')
+        elif user is not None and storeuser.is_suspended:
+            messages.error(request, 'You have been suspended, for questions please email an admin.')
         messages.error(request, 'Please activate your account.')
         return self.get(request, *args, **kwargs)
 
