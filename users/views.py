@@ -14,11 +14,15 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
-
+from bookstore.logger import LoggerFactory
 
 
 from .forms import UserRegisterForm, StoreUserRegistrationForm, PaymentForm, UserEditForm, ContactEditForm, BillingEditForm
 from .models import StoreUser
+
+factory = LoggerFactory()
+error_logger = factory.get_logger('ERROR')
+info_logger = factory.get_logger('INFO')
 
 try:
     from store.models import Book
@@ -42,6 +46,7 @@ class EditProfileView(TemplateView):
             if user_form.is_valid():
                 user_form.save()
                 messages.success(request, 'Successfully updated profile information.')
+                info_logger.log('User updated their profile.')
                 self.notify_user_change(request, request.user)
             else:
                 message.error(request, 'Something went wrong when trying to update your information. Try again later.')
@@ -50,9 +55,11 @@ class EditProfileView(TemplateView):
             if contact_form.is_valid():
                 contact_form.save()
                 messages.success(request, 'Successfully updated contact information.')
+                info_logger.log('User updated their contact information.')
                 self.notify_user_change(request, request.user)
             else:
                 message.error(request, 'Something went wrong when trying to update your information. Try again later.')
+                error_logger.log("User messed up updating their info")
         elif 'cc_number' in request.POST:
             if billing_form.is_valid():
                 billing_form.save()

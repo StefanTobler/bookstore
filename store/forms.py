@@ -2,11 +2,25 @@ from django import forms
 from django.forms import Form, ModelForm
 from django.utils.translation import gettext_lazy as _
 from django.contrib.admin.widgets import FilteredSelectMultiple, RelatedFieldWidgetWrapper
+from bookstore.logger import LoggerFactory
 
 import datetime
 import pytz
 
-from .models import Genre, Book, Author, Promotion, StoreUser, User, Publisher
+from .models import Genre, Book, Author, Promotion, StoreUser, User, Publisher, BookSearch
+
+
+class BookSearchForm(ModelForm):
+
+    class Meta:
+        model = BookSearch
+        fields = ['search', 'genre']
+        labels = {
+            'search': _('Search'),
+            'genre': _('Genre'),
+            # 'sort_by': _('Sort by'),
+        }
+
 
 class EditBookForm(ModelForm):
 

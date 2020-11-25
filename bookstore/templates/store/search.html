@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+{% load store_filters %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+  <form class="row" id="search">
+    <h1>Search</h1>
+    <fieldset class="form-group">
+      <form method="get">
+        {% csrf_token %}
+        {{ form | crispy }}
+        {% if storeuser.is_employee %}
+          {{ form2 | crispy }}
+        {% endif %}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg ">Update</button>
+        </div>
+      </form>
+    </fieldset>
+    <!-- <div class="form-group">
+      <label for="titleInput">Search</label>
+      <input id="titleInput" class="form-control" placeholder="Search By Title, Author, Keyword, ISBN...">
+    </div> -->
+  </form>
+
+  <div class="container-fluid">
+
+  </div>
+
+  <div class="container-fluid">
+
+  </div>
+
+  <div class="container-fluid mb-5">
+    <section id="discover">
+
+      <div class="my-3">
+        <h1>"{{ search }}"</h1>
+      </div>
+      {% for book in page_obj %}
+      <div class="discover-container card d-flex justify-content-between" onclick="window.location.href='{% url 'store-book' id=book.id %}'">
+       <div class="align-middle card-body px-2">
+         <div class="float-left">
+           <img src="{{ book.image.url }}" style="width:auto;max-height:210px;">
+         </div>
+         <div class="float-right align-middle mr-3" style="max-width:65%;">
+           <h4 class="text-right card-title">{{ book.title }}</h4>
+           <p class="text-right card-text">{{ book | get_authors_as_string }}</p>
+           <p class="text-right card-text"><b>{{ book.rating }}</b> &#11088; ({{ book.reviews }})</p>
+           <p class="text-right card-text">${{ book.selling_price }}</p>
+           </div>
+       </div>
+       <div class="w-100"></div>
+   </div>
+   <br>
+      {% endfor %}
+      <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a class="btn btn-primary btn-lg" href="?page=1#discover"><i class="fas fa-angle-double-left"></i> first</a>
+        <a class="btn btn-primary btn-lg" href="?page={{ page_obj.previous_page_number }}#discover"><i class="fas fa-chevron-left"></i></a>
+        {% endif %}
+
+        <span class="pink current btn btn-primary btn-lg">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+        <a class="btn btn-primary btn-lg " href="?page={{ page_obj.next_page_number }}#discover"><i class="fas fa-chevron-right"></i></a>
+        <a class="btn btn-primary btn-lg " href="?page={{ page_obj.paginator.num_pages }}#discover">last <i class="fas fa-angle-double-right"></i></a>
+        {% endif %}
+      </span>
+    </section>
+  </div>
+</div>
+{% endblock %}

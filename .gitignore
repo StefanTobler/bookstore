@@ -5,3 +5,4 @@ __pycache__/
 /deliverable_3/
 .env
 *.sqlite3
+media/item_images/

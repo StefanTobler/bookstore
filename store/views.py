@@ -8,14 +8,19 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.utils.datastructures import MultiValueDictKeyError
-
+from django.db.models.functions import Lower
+from bookstore.logger import LoggerFactory
 
 from random import shuffle
 from threading import Thread
 
 
 from .models import *
-from .forms import EditBookForm, NewBookForm, NewPromoForm, EditStoreUserForm, EditUserForm
+from .forms import EditBookForm, NewBookForm, NewPromoForm, EditStoreUserForm, EditUserForm, BookSearchForm
+
+factory = LoggerFactory()
+info_logger = factory.get_logger('INFO')
+
 
 class MainView(TemplateView):
 
@@ -24,8 +29,14 @@ class MainView(TemplateView):
     def post(self, request, *args, **kwargs):
         return self.get(request, *args, **kwargs)
 
-
     def get(self, request, *args, **kwargs):
+        print()
+        url_request = request.GET.urlencode()
+
+        if url_request != "":
+            return redirect('/search?' + url_request)
+
+        form = BookSearchForm()
         avaliable_books = Book.objects.filter(archived=False)
         paginator = Paginator(avaliable_books, 10)
         page_number = request.GET.get('page', 1)
@@ -35,8 +46,56 @@ class MainView(TemplateView):
             'featured': avaliable_books.filter(featured=True).all()[:10],
             'genres': Genre.objects.order_by('genre'),
             'page_obj': page_obj,
+            'form': form,
         }
         return render(request, self.template_name, context)
+
+
+class SearchView(TemplateView):
+
+    template_name = "store/search.html"
+
+    def post(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        print()
+        search = request.GET.get('search', '')
+        genre = request.GET.get('genre', '')
+        sort_by = request.GET.get('sort_by', '')
+        info_logger.log(f"User searched for: {search}")
+        form = BookSearchForm()
+
+        true_q = ~Q(pk__in=[])
+        genre_q = true_q
+        if genre != '':
+            genre_q = Q(genres__in=[genre])
+
+        available_authors = Author.objects.filter(Q(first_name__icontains=str(search)) |
+            Q(middle_name__icontains=str(search)) | Q(last_name__icontains=str(search)))
+        avaliable_books = Book.objects.filter(genre_q & (Q(title__icontains=str(search)) |
+            Q(authors__in=available_authors) | Q(isbn__icontains=str(search))), archived=False).distinct()
+
+        if sort_by == 'TITLE':
+            avaliable_books = avaliable_books.order_by(Lower('title'))
+        elif sort_by == 'GENRE':
+            avaliable_books = avaliable_books.order_by(Lower('genre'))
+        elif sort_by == 'ISBN':
+            avaliable_books = avaliable_books.order_by(Lower('isbn'))
+        elif sort_by == 'AUTHOR':
+            avaliable_books = avaliable_books.order_by(Lower('authors'))
+
+        paginator = Paginator(avaliable_books, 10)
+        page_number = request.GET.get('page', 1)
+        page_obj = paginator.get_page(page_number)
+        context = {
+            'genres': Genre.objects.order_by('genre'),
+            'page_obj': page_obj,
+            'form': form,
+            'search': str(search),
+        }
+        return render(request, self.template_name, context)
+
 
 class BookView(TemplateView):
 
@@ -77,10 +136,10 @@ class ManageOrdersView(TemplateView):
         user = request.user
         orders = OrderedBook.objects.filter(user=user)
         test = orders.filter(status=OrderStatus.SHIPPED)
-        print(orders)
-        print(test)
+        info_logger.log(orders)
+        info_logger.log(test)
         current_orders = orders.filter(Q(status=OrderStatus.SHIPPED) | Q(status=OrderStatus.ORDERED))
-        print(current_orders)
+        info_logger.log(current_orders)
         past_orders = orders.filter(status=OrderStatus.DELIVERED)
         context = {
             'current_orders': orders,

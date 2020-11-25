@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from bookstore.logger import LoggerFactory
 
 import hashlib
 import uuid
@@ -11,6 +12,7 @@ from address.models import AddressField
 from users.models import StoreUser
 
 from .validators import *
+
 
 class Item(models.Model):
     selling_price = models.FloatField(validators=[validate_positive])
@@ -61,7 +63,7 @@ class Book(Item):
     authors = models.ManyToManyField(Author) # One book could have many authors
     genres = models.ManyToManyField(Genre)
     publication_year = models.PositiveIntegerField()
-    isbn = models.CharField(max_length=14, validators=[validate_isbn], unique=True) # this really needs a validator, you could honesty probably use an API
+    isbn = models.CharField(max_length=14, validators=[validate_isbn], unique=True) # this really needs a validator, you could honestly probably use an API
     edition = models.PositiveIntegerField(default=0)
     publisher = models.ForeignKey(Publisher, on_delete=models.DO_NOTHING)
 
@@ -114,3 +116,21 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, verbose_name=_('cart'), on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(verbose_name=_('quantity'))
     book = models.ForeignKey(Book, verbose_name=_('item'), on_delete=models.CASCADE)
+
+
+class SortBy(Enum):
+
+    TITLE = "Title"
+    GENRE = "Genre"
+    ISBN = "ISBN"
+    AUTHOR = "Author"
+
+    @classmethod
+    def choices(cls):
+        return tuple((i.name, i.value) for i in cls)
+
+
+class BookSearch(models.Model):
+    search = models.CharField(max_length=120, blank=True)
+    genre = models.ForeignKey(Genre, on_delete=models.DO_NOTHING, blank=True)
+    sort_by = models.CharField(max_length=10, choices=SortBy.choices(), default=SortBy.TITLE)

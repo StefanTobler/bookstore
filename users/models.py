@@ -43,7 +43,7 @@ class StoreUser(models.Model):
 
     def is_suspended(self):
         return self.status == self.SUSPENDED
-        
+
     def activate(self):
         self.status = self.ACTIVE
         return True
