@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.base import TemplateView
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.db.models import Q
+from django.db.models import Q, F
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
@@ -13,6 +13,11 @@ from bookstore.logger import LoggerFactory
 
 from random import shuffle
 from threading import Thread
+import sys
+import datetime
+import pytz
+from copy import copy
+from time import sleep
 
 
 from .models import *
@@ -102,7 +107,28 @@ class BookView(TemplateView):
     template_name = "store/book.html"
 
     def post(self, request, id, *args, **kwargs):
-        return self.get(request, id, *args, **kwargs)
+        book = get_object_or_404(Book, id=id)
+        user = request.user
+        cart = user.storeuser.cart
+        cart_items = CartItem.objects.filter(cart=cart)
+        cart_item = cart_items.filter(book=book)
+        try:
+            if len(cart_items.filter(book=book)) == 0:
+                cart_item = CartItem(cart=cart, quantity=1, book=book)
+                cart_item.save()
+                messages.success(request, f'{book.title} added to cart!')
+            else:
+                print('UPDATING quantity')
+                cart_item.update(quantity=F('quantity') + 1)
+                messages.success(request, f'{book.title} added to cart!')
+        except:
+            messages.error(request, 'Looks like an error occured, try again later.')
+            info_logger.log(sys.exc_info()[0])
+
+        context = {
+            'book': book,
+        }
+        return render(request, self.template_name, context)
 
 
     def get(self, request, id, *args, **kwargs):
@@ -117,33 +143,152 @@ class CartView(TemplateView):
     template_name = "store/cart.html"
 
     def post(self, request, *args, **kwargs):
-        return self.get(request, id_url, *args, **kwargs)
+        try:
+            cart_item = CartItem.objects.filter(cart=request.user.storeuser.cart, book=request.POST['book_id'])
+            if int(request.POST['qty']) > 0:
+                cart_item.update(quantity=request.POST['qty'])
+            else:
+                messages.success(request, f'{cart_item[0].book.title} removed from cart.')
+                cart_item.delete()
+        except:
+            messages.error(request, 'Looks like an error occured, try again later.')
+        return self.get(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
+        cart_items = CartItem.objects.filter(cart=request.user.storeuser.cart)
+        totals = get_cart_totals(request.user.storeuser.cart)
+        out_of_stock = False
+        out_books = []
+        for item in cart_items:
+            if item.book.stock <= 0 or item.quantity > item.book.stock:
+                out_of_stock = True
+                out_books.append(item.book)
         context = {
-            'books': Book.objects.filter(publication_year__lte=2014)
+            'title': 'Cart',
+            'cart_items': cart_items,
+            'subtotal': totals[0],
+            'taxes': totals[1],
+            'total': totals[2],
+            'out_of_stock': out_of_stock,
+            'out_books': out_books
         }
         return render(request, self.template_name, context)
+
+class CheckoutView(TemplateView):
+
+    template_name="store/checkout.html"
+
+    def post(self, request, *args, **kwargs):
+        code = request.POST['promo']
+        promo = Promotion.objects.filter(code=code)
+        utc=pytz.UTC
+        if len(promo) < 1:
+            messages.error(request, 'That promotion does not exist.')
+        elif promo[0].expiry < datetime.datetime.now(tz=utc):
+            messages.error(request, 'That promotion has already expired.')
+        else:
+            request.user.storeuser.cart.promotion = promo[0]
+            messages.success(request, 'Promotion applied!')
+        return self.get(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        cart_items = CartItem.objects.filter(cart=request.user.storeuser.cart)
+        promotion = request.user.storeuser.cart.promotion
+        totals = get_cart_totals(request.user.storeuser.cart)
+        out_cart_items = cart_items.filter(book__stock__lt=1).delete()
+        context = {
+            'title': 'Checkout',
+            'cart_items': cart_items,
+            'subtotal': totals[0],
+            'taxes': totals[1],
+            'total': totals[2],
+            'promo': promotion
+        }
+        return render(request, self.template_name, context)
+
+class OrderSummaryView(TemplateView):
+
+    template_name = "store/order_summary.html"
+
+    context = {}
+
+    def post(self, request, order_number, *args, **kwargs):
+        if not request.user.storeuser.address or not request.user.storeuser.payment:
+           messages.error(request, 'Please enter valid payment or shipping information.')
+           return redirect('store-checkout')
+        if order_number == 'new':
+            cart = request.user.storeuser.cart
+            cart_items = CartItem.objects.filter(cart=cart)
+
+            shipping_address = copy(request.user.storeuser.address)
+            shipping_address.pk = None
+            shipping_address.save()
+
+            order = Order(
+                    shipping_address=shipping_address,
+                    user=request.user.storeuser,
+                    promotion=cart.promotion
+            )
+            order.save()
+
+            for item in cart_items:
+                item.to_ordered_book(order)
+                item.book.sell_item(item.quantity)
+            order_number = order.order_id
+            cart_items.delete()
+            cart.remove_promotion()
+            Thread(target=self.deliver_order, args=(order, )).start()
+
+        return redirect('store-ordersummary', order_number=order_number)
+
+    def get(self, request, order_number, *args, **kwargs):
+        order = get_object_or_404(Order, user=request.user.storeuser, order_id=order_number)
+        order_items = OrderedBook.objects.filter(order=order)
+
+        totals = get_order_totals(order)
+        promotion = order.promotion
+
+        self.context.update({
+        'title': 'Order Summary - ' + order_number,
+        'order': order,
+        'order_items': order_items,
+        'subtotal': totals[0],
+        'taxes': totals[1],
+        'total': totals[2],
+        'promo': promotion
+        })
+        return render(request, self.template_name, self.context)
+
+    def deliver_order(self, order):
+        sleep(20)
+        order.status = Order.SHIPPED
+        order.save()
+        sleep(20)
+        order.status = Order.DELIVERED
+        order.save()
+        return
 
 class ManageOrdersView(TemplateView):
 
     template_name = "store/manageorders.html"
 
     def post(self, request, *args, **kwargs):
-        return self.get(request, id_url, *args, **kwargs)
+        order = get_object_or_404(Order, user=request.user.storeuser, order_id=request.POST['order_id'])
+        cart = request.user.storeuser.cart
+        cart.empty()
+        cart.add_order(order)
+        return redirect('store-cart')
 
     def get(self, request, *args, **kwargs):
-        user = request.user
-        orders = OrderedBook.objects.filter(user=user)
-        test = orders.filter(status=OrderStatus.SHIPPED)
-        info_logger.log(orders)
-        info_logger.log(test)
-        current_orders = orders.filter(Q(status=OrderStatus.SHIPPED) | Q(status=OrderStatus.ORDERED))
-        info_logger.log(current_orders)
-        past_orders = orders.filter(status=OrderStatus.DELIVERED)
+        user = request.user.storeuser
+        orders = Order.objects.filter(user=user)
+        current_orders = orders.filter(Q(status=Order.SHIPPED) | Q(status=Order.ORDERED))
+        print(current_orders)
+        past_orders = orders.filter(status=Order.DELIVERED)
         context = {
-            'current_orders': orders,
-            'past_orders': orders,
+            'title': 'Manage Orders',
+            'current_orders': current_orders,
+            'past_orders': past_orders,
         }
         return render(request, self.template_name, context)
 

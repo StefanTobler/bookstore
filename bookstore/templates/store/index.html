@@ -8,20 +8,15 @@
     <h1>Search Bookstore</h1>
     <fieldset class="form-group">
       <form method="get">
-        {% csrf_token %}
         {{ form | crispy }}
         {% if storeuser.is_employee %}
-          {{ form2 | crispy }}
+        {{ form2 | crispy }}
         {% endif %}
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-lg ">Update</button>
+          <button type="submit" class="btn btn-primary btn-lg ">Search</button>
         </div>
       </form>
     </fieldset>
-    <!-- <div class="form-group">
-      <label for="titleInput">Search</label>
-      <input id="titleInput" class="form-control" placeholder="Search By Title, Author, Keyword, ISBN...">
-    </div> -->
   </form>
 
   <div class="container-fluid">
@@ -110,20 +105,20 @@
       </div>
       {% for book in page_obj %}
       <div class="discover-container card d-flex justify-content-between" onclick="window.location.href='{% url 'store-book' id=book.id %}'">
-       <div class="align-middle card-body px-2">
-         <div class="float-left">
-           <img src="{{ book.image.url }}" style="width:auto;max-height:210px;">
-         </div>
-         <div class="float-right align-middle mr-3" style="max-width:65%;">
-           <h4 class="text-right card-title">{{ book.title }}</h4>
-           <p class="text-right card-text">{{ book | get_authors_as_string }}</p>
-           <p class="text-right card-text"><b>{{ book.rating }}</b> &#11088; ({{ book.reviews }})</p>
-           <p class="text-right card-text">${{ book.selling_price }}</p>
-           </div>
-       </div>
-       <div class="w-100"></div>
-   </div>
-   <br>
+        <div class="align-middle card-body px-2">
+          <div class="float-left">
+            <img src="{{ book.image.url }}" style="width:auto;max-height:210px;">
+          </div>
+          <div class="float-right align-middle mr-3" style="max-width:65%;">
+            <h4 class="text-right card-title">{{ book.title }}</h4>
+            <p class="text-right card-text">{{ book | get_authors_as_string }}</p>
+            <p class="text-right card-text"><b>{{ book.rating }}</b> &#11088; ({{ book.reviews }})</p>
+            <p class="text-right card-text">${{ book.selling_price }}</p>
+          </div>
+        </div>
+        <div class="w-100"></div>
+      </div>
+      <br>
       {% endfor %}
       <span class="step-links">
         {% if page_obj.has_previous %}

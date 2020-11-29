@@ -1,68 +1,87 @@
 {% extends "base.html" %}
+{% load store_filters %}
 {% block content %}
-    <div class="mx-auto mt-3 book-details">
-      <div class="container">
-        <h1>Order History</h1>
-      </div>
+<div class="mx-auto mt-3 book-details">
+  <div class="container">
+    <h1>Order History</h1>
+  </div>
 
-      <div class="container m-4">
-        <div class="row">
-          <div class="col-sm" style="text-align: center;">
-            <div class="p-3 book-price-section">
-              <p class="book-category"><i>current orders</i></p>
-              <hr>
-              {% for order in current_orders %}
-              <div class="p-3 mt-2 mb-2 history-item container">
-                <div class="row">
-                  <div class="col-sm">
-                    <img src="{{ order.book.image.url }}" class="history-book-cover img-fluid " alt="Responsive image">
-                  </div>
-                  <div class="col-sm">
-                    <p class="history-book-title"><b>{{ order.book.title }}</b></p>
-                    <p class="history-date">Ordered on {{ order.date }}</p>
-                    <p class="history-status"><b>Status:</b> {{ order.status }}</p>
-                  </div>
-                  <div class="col-sm">
-                    <p class="book-price">${{ order.book.selling_price }}</p>
-                    <button type="button" class="btn btn-primary btn-lg btn-block"><b>Reorder</b></button>
-                  </div>
-                </div>
+  <div class="container m-4">
+    <div class="row">
+      <div class="col-sm" style="text-align: center;">
+        <div class="p-3 book-price-section">
+          <p class="book-category"><i>current orders</i></p>
+          <hr>
+          {% for order in current_orders %}
+          <div class="p-3 mt-2 mb-2 history-item container">
+            <div class="row">
+              <div class="col-sm">
+                {% for item in order|get_items %}
+                <a href="{% url 'store-book' id=item.book.id %}">
+                  <img src="{{ item.book.image.url }}" class="history-book-cover img-fluid " alt="{{ item.book.title }}" title="{{ item.book.title }}">
+                </a>
+                {% endfor %}
               </div>
-              {% endfor %}
+              <div class="col-sm">
+                <p class="history-book-title"><b>{{ order.order_id }}</b></p>
+                <p class="history-date">Ordered on {{ order.date }}</p>
+                <p class="history-status"><b>Status:</b> {{ order.status }}</p>
+              </div>
+              <div class="col-sm">
+                <button onclick="window.location.href='{% url 'store-ordersummary' order_number=order.order_id %}'" type="button" class="btn btn-primary btn-lg btn-block"><b>View Order</b></button>
+                <br>
+                <form method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="order_id" value="{{order.order_id}}">
+                  <button type="submit" class="btn btn-primary btn-lg btn-block"><b>Reorder</b></button>
+                </form>
+              </div>
             </div>
           </div>
+          {% endfor %}
         </div>
       </div>
-
-      {% if past_orders %}
-      <div class="container m-4">
-        <div class="row">
-          <div class="col-sm" style="text-align: center;">
-            <div class="p-3 book-price-section">
-              <p class="book-category"><i>past orders</i></p>
-              <hr>
-
-              {% for order in past_orders %}
-              <div class="p-3 mt-2 mb-2 history-item container">
-                <div class="row">
-                  <div class="col-sm">
-                    <img src="{{ order.book.image.url }}" class="history-book-cover img-fluid " alt="Responsive image">
-                  </div>
-                  <div class="col-sm">
-                    <p class="history-book-title"><b>{{ order.book.title }}</b></p>
-                    <p class="history-status">Ordered on {{ order.date }}</p>
-                  </div>
-                  <div class="col-sm">
-                    <p class="book-price">${{ order.book.selling_price }}</p>
-                    <button type="button" class="btn btn-primary btn-lg btn-block"><b>Reorder</b></button>
-                  </div>
-                </div>
-              </div>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-      {% endif %}
     </div>
+  </div>
+
+  {% if past_orders %}
+  <div class="container m-4">
+    <div class="row">
+      <div class="col-sm" style="text-align: center;">
+        <div class="p-3 book-price-section">
+          <p class="book-category"><i>past orders</i></p>
+          <hr>
+
+          {% for order in past_orders %}
+          <div class="p-3 mt-2 mb-2 history-item container">
+            <div class="row">
+              <div class="col-sm">
+                {% for item in order|get_items %}
+                <a href="{% url 'store-book' id=item.book.id %}">
+                  <img src="{{ item.book.image.url }}" class="history-book-cover img-fluid " alt="{{ item.book.title }}" title="{{ item.book.title }}">
+                </a>
+                {% endfor %}
+              </div>
+              <div class="col-sm">
+                <p class="history-book-title"><b>{{ order.order_id }}</b></p>
+                <p class="history-status">Ordered on {{ order.date }}</p>
+              </div>
+              <div class="col-sm">
+                <button onclick="window.location.href='{% url 'store-ordersummary' order_number=order.order_id %}'" type="button" class="btn btn-primary btn-lg btn-block"><b>View Order</b></button>
+                <br>
+                <form method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="order_id" value="{{order.order_id}}">
+                  <button type="submit" class="btn btn-primary btn-lg btn-block"><b>Reorder</b></button>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
 {% endblock content %}

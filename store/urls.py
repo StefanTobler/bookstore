@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     path('', views.MainView.as_view(), name='store-index'),
-    path('search', views.SearchView.as_view(), name='store-search'),
+    path('search/', views.SearchView.as_view(), name='store-search'),
     path('book/<slug:id>', views.BookView.as_view(), name='store-book'),
     path('cart/', login_required(views.CartView.as_view()), name='store-cart'),
     path('orders/', login_required(views.ManageOrdersView.as_view()), name='store-manageorders'),
@@ -17,4 +17,6 @@ urlpatterns = [
     path('promotions/new', login_required(views.AdminNewPromoView.as_view()), name='store-adminnewpromo'),
     path('promotions/promo-<slug:code>', login_required(views.AdminEditPromosView.as_view()), name='store-admineditpromos'),
     path('users/edit-<slug:id>', login_required(views.AdminEditUserView.as_view()), name='store-adminedituser'),
+    path('checkout/', login_required(views.CheckoutView.as_view()), name='store-checkout'),
+    path('order/<slug:order_number>', login_required(views.OrderSummaryView.as_view()), name='store-ordersummary'),      
 ]

@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load store_filters %}
+{% block content %}
+<div class="mx-auto mt-3 book-details">
+  <div class="container m-4">
+    <div class="row">
+      <div class="col-sm">
+        <div class="p-3 book-price-section">
+          <h1>Checkout</h1>
+          {% if messages %}
+          {% for message in messages %}
+          <br>
+          <div class="alert alert-{{ message.tags }} text-center" role="alert">{{ message }}</div>
+          {% endfor %}
+          {% endif %}
+          {% for cart_item in cart_items %}
+          {% with book=cart_item.book %}
+          <div class="card d-flex justify-content-between">
+            <div class="align-middle card-body px-2">
+              <div class="float-left">
+                <a href="{% url 'store-book' id=book.id %}">
+                  <img src="{{ book.image.url }}" style="width:auto;max-height:210px;" onclick="window.location.href='{% url 'store-book' id=book.id %}'">
+                </a>
+              </div>
+              <div class="float-right text-right align-middle mr-3" style="max-width:65%;">
+                <h4 class="card-title">{{ book.title }}</h4>
+                <p class="card-text">${{ book.selling_price }}</p>
+                <form method="post" action="{% url 'store-cart' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="book_id" value="{{ book.id }}">
+                  <label for="qty">Quantity: {{ cart_item.quantity }}</label>
+                  <input hidden id="qty_{{ book.id }}" class="quantity" min="0" name="qty" value="{{ cart_item.quantity }}" type="number">
+                  <br>
+                  <br>
+                  <button class="float-right btn btn-primary" onclick="this.parentNode.querySelector('input[type=number]').value=0;">Remove from order</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <br>
+          {% endwith %}
+          {% endfor %}
+          {% if cart_items %}
+          <hr>
+          <div class="address-container">
+            <h3>Shipping Address</h3>
+            <p>{{ user.storeuser.address }}</p>
+            <span class="btn btn-primary btn-md" onclick="window.location.href='{% url 'users-editprofile' %}'">Change</span>
+          </div>
+          <hr>
+          <div class="address-container">
+            <h3>Billing</h3>
+            <p>{{ user.storeuser.payment | cc_string }}</p>
+            <p>Billing address: {{ user.storeuser.payment.billing_address }}</p>
+            <span class="btn btn-primary btn-md" onclick="window.location.href='{% url 'users-editprofile' %}'">Change</span>
+          </div>
+          <hr>
+          <div class="checkout-table">
+            <form method="post">
+              {% csrf_token %}
+              <label for="promo">Promocode: </label>
+              <input type="text" name="promo" value="" placeholder="{{ promo.code|default:"Enter code"}}">
+              <button class="btn btn-primary btn-sm" type="submit" name="button"> Apply </button>
+            </form>
+            <table>
+              {% if promo %}
+              <tr>
+                <th>Discount:</th>
+                {% if promo.discount_type == "P" %}
+                <td>{{ promo.discount_amount }}%</td>
+                {% else %}
+                <td>${{ promo.discount_amount | money }}</td>
+                {% endif %}
+              </tr>
+              {% endif %}
+              <tr>
+                <th>Subtotal:</th>
+                {% if promo %}
+                <td><del>${{ subtotal }}</del> ${{ promo|promo_discount:subtotal }}</td>
+                {% else %}
+                <td>${{ subtotal }}</td>
+                {% endif %}
+              </tr>
+              <tr>
+                <th>Taxes (7%):</th>
+                <td>${{ taxes }}</td>
+              </tr>
+              <tr>
+                <th>Total:</th>
+                <td>${{ promo|promo_discount:total }}</td>
+              </tr>
+            </table>
+            <form action="{% url 'store-ordersummary' order_number='new'%}" method="post">
+              {% csrf_token %}
+              <button class="btn btn-primary btn-lg mt-1" id="checkoutBtn">Place your order</button>
+            </form>
+          </div>
+          {% else %}
+          <h2 class="mt-5 text-center">Looks like your cart is empty! <br><br>Checkout some books <a href="{% url 'store-index' %}">here</a>!</h2>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

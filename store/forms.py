@@ -11,7 +11,7 @@ from .models import Genre, Book, Author, Promotion, StoreUser, User, Publisher, 
 
 
 class BookSearchForm(ModelForm):
-
+    search = forms.CharField(max_length=1024, widget=forms.TextInput(attrs={'placeholder':'Search By Title, Author, Keyword, ISBN...'}), required=False)
     class Meta:
         model = BookSearch
         fields = ['search', 'genre']

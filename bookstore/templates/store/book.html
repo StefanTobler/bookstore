@@ -22,14 +22,26 @@
           </div>
           <div class="col-sm" style="text-align: center;">
             <div class="book-price-section">
+              {% if messages %}
+              {% for message in messages %}
+              <br>
+              <div class="alert alert-{{ message.tags }} text-center" role="alert">{{ message }}</div>
+              {% endfor %}
+              {% endif %}
               <p class="book-category">{{ book | get_genres_as_string }}</p>
               <p class="book-publisher">Published by {{ book.publisher }}<br>Published in {{ book.publication_year }}</p>
               <p class="book-summary ml-4 mr-4">{{ book.summary }}</p>
               <p class="book-price">${{ book.selling_price }}</p>
             </div>
-            <button type="button" class="btn btn-primary btn-lg btn-block"><b>Add to cart</b></button>
             {% if user.is_superuser %}
             <button onclick="window.location.href='{% url 'store-admineditbook' id=book.id %}'" class="btn btn-primary btn-lg btn-block"><b>Edit Book</b></button>
+            {% elif book.stock < 1 %}
+            <span class="btn btn-out btn-lg btn-block" style="background_color:red !important;"> Out of Stock</span>
+            {% else %}
+            <form method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary btn-lg btn-block"><b>Add to cart</b></button>
+            </form>
             {% endif %}
           </div>
         </div>

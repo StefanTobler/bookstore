@@ -1,5 +1,10 @@
 from django import template
+
+from creditcards import types
+
 import datetime
+
+from store.models import OrderedBook
 
 register = template.Library()
 
@@ -52,3 +57,34 @@ def get_status_name(code):
 def get_date(date):
     date = datetime.datetime.strptime(date, '%Y-%m-%dT%H:%M')
     return f'{date.strftime("%B %d, %Y, %H:%M:%S")}'
+
+@register.filter(name="cc_string")
+def cc_string(payment):
+    card_type = types.get_type(payment.cc_number)
+    for card in types.CC_TYPES:
+        if card_type == card[0]:
+            card_type = card[1]['title']
+            break
+    return f'{card_type} ending in {payment.get_ending()}'
+
+@register.filter(name="promo_discount")
+def promo_discount(promo, total):
+    new_total = 0
+    if not promo: return total
+    if promo.discount_type == 'P':
+        new_total = float(total) * (1 - promo.discount_amount * .01)
+    else:
+        new_total = float(total) - promo.discount_amount
+
+    if new_total < 0:
+        new_total = 0
+
+    return "{:.2f}".format(new_total)
+
+@register.filter(name="get_items")
+def get_items(order):
+    return OrderedBook.objects.filter(order=order)
+
+@register.filter(name="money")
+def get_items(num):
+    return "{:.2f}".format(float(num))

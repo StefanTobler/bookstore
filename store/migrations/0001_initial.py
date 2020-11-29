@@ -87,7 +87,7 @@ class Migration(migrations.Migration):
             name='OrderedBook',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('status', models.CharField(choices=[('ORDERED', 'Ordered'), ('SHIPPED', 'Shipped'), ('DELIVERED', 'Delivered')], default=store.models.OrderStatus['ORDERED'], max_length=10)),
+                ('status', models.CharField(choices=[('ORDERED', 'Ordered'), ('SHIPPED', 'Shipped'), ('DELIVERED', 'Delivered')], default=store.models.Order.ORDERED, max_length=10)),
                 ('date', models.DateField(auto_now_add=True)),
                 ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='store.book')),
                 ('shipping_address', address.models.AddressField(on_delete=django.db.models.deletion.CASCADE, to='address.address')),

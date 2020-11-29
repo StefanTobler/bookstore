@@ -1,129 +1,101 @@
 {% extends "base.html" %}
 {% load store_filters %}
 {% block content %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col" id="orderSummary">
-                <h1>Order Summary</h1>
-                {% for book in books %}
-                <div class="card">
-                  <a href="/book/{{ book.id }}">
-                      <img src="{{ book.image.url }}" class="book-img card-img-top" alt="{{ book.title }}  Cover Image">
-                  </a>
-                  <div class="card-body">
-                    <h5 class="card-title"><a class="book-link" href="/book/{{ book.id }}">{{ book.title }}</a></h4>
-                    <h6>${{ book.selling_price }}</h6>
-                    <button>Remove from order</button>
+<div class="mx-auto mt-3 book-details">
+  <div class="container m-4">
+    <div class="row">
+      <div class="col-sm">
+        <div class="p-3 book-price-section">
+          <h1>Cart</h1>
+          {% if messages %}
+          {% for message in messages %}
+          <br>
+          <div class="alert alert-{{ message.tags }} text-center" role="alert">{{ message }}</div>
+          {% endfor %}
+          {% endif %}
+          {% for cart_item in cart_items %}
+          {% with book=cart_item.book %}
+          <div class="card d-flex justify-content-between">
+            <div class="align-middle card-body px-2">
+              <div class="float-left">
+                <a href="{% url 'store-book' id=book.id %}">
+                  <img src="{{ book.image.url }}" style="width:auto;max-height:210px;" onclick="window.location.href='{% url 'store-book' id=book.id %}'">
+                </a>
+              </div>
+              <div class="float-right text-right align-middle mr-3" style="max-width:65%;">
+                <h4 class="card-title">{{ book.title }}</h4>
+                {% if book.stock < 1 %}
+                <span style="color:red;"> Out of Stock </span>
+                {% else %}
+                <span style="color:green;"> In Stock </span>
+                {% endif %}
+                <p class="card-text">{{ book | get_authors_as_string }}</p>
+                <p class="card-text">${{ book.selling_price }}</p>
+                <form method="post">
+                  <div class="def-number-input number-input safari_only float-right mb-2">
+                    {% csrf_token %}
+                    <input type="hidden" name="book_id" value="{{ book.id }}">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+                    <input id="qty_{{ book.id }}" class="quantity" min="0" name="qty" value="{{ cart_item.quantity }}" type="number">
+                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                  </div>
+                  <br>
+                  <br>
+                  <button class="float-right btn btn-primary" onclick="this.parentNode.querySelector('input[type=number]').value=0;">Remove from cart</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <br>
+          {% endwith %}
+          {% endfor %}
+          {% if cart_items %}
+          <div class="checkout-table">
+            <table>
+              <tr>
+                <th>Subtotal:</th>
+                <td>${{ subtotal }}</td>
+              </tr>
+              <tr>
+                <th>Taxes (7%):</th>
+                <td>${{ taxes }}</td>
+              </tr>
+              <tr>
+                <th>Total:</th>
+                <td>${{ total }}</td>
+              </tr>
+            </table>
+            {% if out_of_stock %}
+            <div id="stock_modal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <p>The following items in your cart are out of stock.</p>
+                    <ul>
+                      {% for book in out_books %}
+                      <li>{{ book.title }}</li>
+                      {% endfor %}
+                    </ul>
+                    <p>Would you like to remove them and checkout?</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button onclick="window.location.href='{% url 'store-checkout' %}'" class="btn btn-default">Continue</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Return to Cart</button>
                   </div>
                 </div>
-                {% endfor %}
-                <div class="checkout-table">
-                  <table>
-                      <tr>
-                          <th>Subtotal:</th>
-                          <td>${{ books | selling_price_sum }}</td>
-                      </tr>
-                      <tr>
-                        <th>Taxes (7%):</th>
-                        <td>${{ books | get_selling_price_taxes }}</td>
-                      </tr>
-                      <tr>
-                        <th>Total:</th>
-                        <td>${{ books | get_total_price }}</td>
-                      </tr>
-                  </table>
-                  <button class="btn btn-primary btn-lg mt-1" id="checkoutBtn">Checkout</button>
-                </div>
+              </div>
             </div>
-            <div class="col" id="orderDetails">
-                <div id="paymentInfo">
-                    <h2>Payment Information</h2>
-                    <table>
-                        <tr>
-                            <th>Card Number</th>
-                            <td>1111 2222 3333 4444</td>
-                        </tr>
-                        <tr>
-                            <th>Card Type</th>
-                            <td>Visa</td>
-                        </tr>
-                        <tr>
-                            <th>Expiration Date</th>
-                            <td>09/20</td>
-                        </tr>
-                    </table>
-                    <a class="btn btn-primary" data-toggle="collapse" href="#changePayment">Change Payment Method</a>
-                    <div class="collapse" id="changePayment">
-                        <form>
-                            <div class="form-group">
-                                <label for="cardNumInput">Card Number</label>
-                                <input id="cardNumInput" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="cardTypeSelect">Subject</label>
-                                <select class="custom-select" id="cardTypeSelect">
-                                    <option selected>Select a card type</option>
-                                    <option value="1">Mastercard</option>
-                                    <option value="2">American Express</option>
-                                    <option value="3">Visa</option>
-                                    <option value="4">Discover</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="cardDateInput">Card Expiration Date</label>
-                                <input cardDateInput" class="form-control">
-                            </div>
-                            <button type="submit" class="btn btn-secondary btn-sm">Submit changes</button>
-                        </form>
-                    </div>
-                </div>
-                <div id="shippingInfo">
-                    <h2>Shipping Details</h2>
-                    <table>
-                        <tr>
-                            <td>2645 Whitling St NW</td>
-                        </tr>
-                        <tr>
-                            <td>Atlanta, GA</td>
-                        </tr>
-                        <tr>
-                            <td>30318</td>
-                        </tr>
-                    </table>
-                    <a class="btn btn-primary" data-toggle="collapse" href="#changeAddress">Change Shipping Address</a>
-                    <div class="collapse" id="changeAddress">
-                        <form>
-                            <div class="form-group">
-                                <label for="addressInput">Street address</label>
-                                <input id="addressInput" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="cityInput">City</label>
-                                <input id="cityInput" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="stateInput">State</label>
-                                <input id="stateInput" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="zipCodeInput">Zip Code</label>
-                                <input id="zipCodeInput" class="form-control">
-                            </div>
-                            <button type="submit" class="btn btn-secondary btn-sm">Submit changes</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <button data-toggle="modal" data-target="#stock_modal" class="btn btn-primary btn-lg mt-1" id="checkoutBtn">Proceed to checkout</button>
+            {% else %}
+            <button onclick="window.location.href='{% url 'store-checkout' %}'" class="btn btn-primary btn-lg mt-1" id="checkoutBtn">Proceed to checkout</button>
+            {% endif %}
+          </div>
+          {% else %}
+          <h2 class="mt-5 text-center">Looks like your cart is empty! <br><br>Checkout some books <a href="{% url 'store-index' %}">here</a>!</h2>
+          {% endif %}
         </div>
-
+      </div>
     </div>
-
-    <div class="collapse" id="changePayment">
-        <form>
-            <div class="form-group">
-                <label for="cardNumInput">Card Number</label>
-                <input id="cardNumInput" class="form-control">
-            </div>
-        </form>
   </div>
+</div>
 {% endblock content %}

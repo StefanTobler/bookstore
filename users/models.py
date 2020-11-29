@@ -66,6 +66,9 @@ class Payment(models.Model):
     def __str__(self):
         return f'****{self.cc_number[-4:]}'
 
+    def get_ending(self):
+        return self.cc_number[-4:]
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='profile.png', upload_to='profile_pics')

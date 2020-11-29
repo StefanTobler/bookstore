@@ -8,13 +8,12 @@
     <h1>Search</h1>
     <fieldset class="form-group">
       <form method="get">
-        {% csrf_token %}
         {{ form | crispy }}
         {% if storeuser.is_employee %}
           {{ form2 | crispy }}
         {% endif %}
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-lg ">Update</button>
+            <button type="submit" class="btn btn-primary btn-lg ">Search</button>
         </div>
       </form>
     </fieldset>
