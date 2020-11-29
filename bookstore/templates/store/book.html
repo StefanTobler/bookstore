@@ -37,11 +37,13 @@
             <button onclick="window.location.href='{% url 'store-admineditbook' id=book.id %}'" class="btn btn-primary btn-lg btn-block"><b>Edit Book</b></button>
             {% elif book.stock < 1 %}
             <span class="btn btn-out btn-lg btn-block" style="background_color:red !important;"> Out of Stock</span>
-            {% else %}
+            {% elif user.is_authenticated %}
             <form method="post">
               {% csrf_token %}
               <button type="submit" class="btn btn-primary btn-lg btn-block"><b>Add to cart</b></button>
             </form>
+            {% else %}
+            <button onclick="window.location.href='{% url 'login'%}'" class="btn btn-primary btn-lg btn-block"><b>Login to purchase!</b></button>
             {% endif %}
           </div>
         </div>
