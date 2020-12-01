@@ -1,0 +1,25 @@
+{% load store_filters %}
+{% autoescape off %}
+Hello {{ user.first_name }},
+
+Thank you for your purchase at Bookstore4050!
+
+Your order number is {{ order.order_id }}
+{% for ordered_item in order_items %}
+{% with book=ordered_item.book %}
+{{ book.title }} - Qty: {{ ordered_item.quantity }}
+{% endwith %}
+{% endfor %}
+
+Shipping Address
+{{ user.storeuser.address }}
+{% if promo %}
+PROMO: {{ promo.code }}
+Discount: {% if promo.discount_type == "P" %}{{ promo.discount_amount }}%{% else %}${{ promo.discount_amount }}</td>
+{% endif %}
+{% endif %}
+Subtotal: {% if promo %}${{ promo|promo_discount:subtotal }}{% else %}${{ subtotal }}
+{% endif %}
+Taxes (7%): ${{ taxes }}
+Total: ${{ promo|promo_discount:total }}
+{% endautoescape %}

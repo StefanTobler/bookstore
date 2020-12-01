@@ -237,6 +237,7 @@ class OrderSummaryView(TemplateView):
             order_number = order.order_id
             cart_items.delete()
             cart.remove_promotion()
+            self.send_confirmation_email(order)
             Thread(target=self.deliver_order, args=(order, )).start()
 
         return redirect('store-ordersummary', order_number=order_number)
@@ -266,6 +267,28 @@ class OrderSummaryView(TemplateView):
         sleep(20)
         order.status = Order.DELIVERED
         order.save()
+        return
+
+    def send_confirmation_email(self, order):
+        mail_subject = f'Bookstore Order Confirmation - {order.order_id}'
+
+        order_items = OrderedBook.objects.filter(order=order)
+
+        totals = get_order_totals(order)
+        promotion = order.promotion
+        message = render_to_string('store/order_confirmation.html', {
+                'user': order.user.user,
+                'order': order,
+                'order_items': order_items,
+                'subtotal': totals[0],
+                'taxes': totals[1],
+                'total': totals[2],
+                'promo': promotion
+        })
+        email = EmailMessage(
+                mail_subject, message, to=[order.user.user.email]
+        )
+        email.send()
         return
 
 class ManageOrdersView(TemplateView):
