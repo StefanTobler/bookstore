@@ -1,19 +1,25 @@
 from datetime import date
 
 
-class LoggerInfo():
+class Logger():
+    def log(self, msg):
+        print(f"{date.today()}")
+        print(msg)
+
+
+class LoggerInfo(Logger):
     def log(self, msg):
         print(f"{date.today()} INFO:")
         print(msg)
 
 
-class LoggerError():
+class LoggerError(Logger):
     def log(self, msg):
         print(f"{date.today()} ERROR:")
         print(msg)
 
 
-class LoggerWarning():
+class LoggerWarning(Logger):
     def log(self, msg):
         print(f"{date.today()} WARNING:")
         print(msg)
